@@ -509,33 +509,6 @@ const ApartmentsEditor = () => {
               </select>
             </div>
           </div>
-          {editingId && (
-            <div className="mt-6">
-              <div className="flex items-center justify-between mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Снимки
-                </label>
-                <button
-                  onClick={() => setShowImageUpload(!showImageUpload)}
-                  className="flex items-center px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-colors"
-                >
-                  <ImageIcon className="w-5 h-5 mr-2" />
-                  {showImageUpload ? 'Скрий' : 'Добави снимки'}
-                </button>
-              </div>
-
-              {showImageUpload && (
-                <div
-                  {...getRootProps()}
-                  className={`border-2 border-dashed rounded-lg p-8 text-center mb-6 transition-colors ${
-                    isDragActive ? 'border-primary bg-primary/5' : 'border-gray-300 hover:border-primary hover:bg-primary/5'
-                  }`}
-                >
-                  <input {...getInputProps()} />
-                  <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">
-                    {isDragActive
-                      ? 'Пуснете снимките тук...'
                       : 'Плъзнете снимки тук или кликнете, за да изберете'}
                   </p>
                   <p className="text-sm text-gray-500 mt-2">
