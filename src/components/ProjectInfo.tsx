@@ -110,17 +110,6 @@ const ProjectInfo = () => {
             </div>
           </div>
           
-          <div className="absolute -bottom-8 -right-8 bg-white rounded-xl p-4 shadow-lg hidden lg:block">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
-                <Waves className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <div className="font-semibold text-neutral-800">Морски изглед</div>
-                <div className="text-sm text-neutral-600">Панорамна гледка</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
