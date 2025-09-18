@@ -67,9 +67,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
     <section className="py-12 md:py-20 bg-gradient-to-br from-neutral-50 to-white" id="contact">
       <div className="container-custom max-w-2xl mx-auto px-4">
         <div className="text-center mb-8 md:mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-6">
-            <MessageSquare className="w-8 h-8 text-primary" />
-          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
             Заявете безплатна консултация
           </h2>
