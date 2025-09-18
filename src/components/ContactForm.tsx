@@ -64,125 +64,177 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
   };
 
   return (
-    <section className="py-12 md:py-20 bg-white" id="contact">
-      <div className="container-custom max-w-lg mx-auto px-4">
+    <section className="py-12 md:py-20 bg-gradient-to-br from-neutral-50 to-white" id="contact">
+      <div className="container-custom max-w-2xl mx-auto px-4">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-6">
+            <MessageSquare className="w-8 h-8 text-primary" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
             Заявете безплатна консултация
           </h2>
-          <p className="text-gray-600">
+          <p className="text-lg text-neutral-600 max-w-xl mx-auto">
             Нашите експерти ще ви помогнат да изберете перфектния апартамент за вас.
           </p>
         </div>
         
+        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-neutral-100">
         {submitStatus.type && (
           <div
-            className={`mb-6 p-4 rounded-lg text-center ${
+            className={`mb-8 p-6 rounded-xl text-center border ${
               submitStatus.type === 'success'
-                ? 'bg-green-50 text-green-800'
-                : 'bg-red-50 text-red-800'
+                ? 'bg-green-50 text-green-800 border-green-200'
+                : 'bg-red-50 text-red-800 border-red-200'
             }`}
           >
-            {submitStatus.message}
+            <div className="flex items-center justify-center mb-2">
+              {submitStatus.type === 'success' ? (
+                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                  <span className="text-green-600 text-lg">✓</span>
+                </div>
+              ) : (
+                <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                  <span className="text-red-600 text-lg">!</span>
+                </div>
+              )}
+            </div>
+            <p className="font-medium">{submitStatus.message}</p>
           </div>
         )}
         
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <User className="h-5 w-5 text-gray-400" />
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="group">
+              <label className="block text-sm font-semibold text-neutral-700 mb-3">
+                Вашето име *
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
+                </div>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Въведете вашето име"
+                  className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base transition-all duration-200 hover:border-neutral-300"
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
             </div>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Вашето име"
-              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-base"
-              required
-              disabled={isSubmitting}
-            />
+
+            <div className="group">
+              <label className="block text-sm font-semibold text-neutral-700 mb-3">
+                Имейл адрес *
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Mail className="h-5 w-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
+                </div>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base transition-all duration-200 hover:border-neutral-300"
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Mail className="h-5 w-5 text-gray-400" />
+          <div className="group">
+            <label className="block text-sm font-semibold text-neutral-700 mb-3">
+              Телефон за връзка
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Phone className="h-5 w-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
+              </div>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="+359 888 123 456"
+                className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base transition-all duration-200 hover:border-neutral-300"
+                disabled={isSubmitting}
+              />
             </div>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Вашият имейл"
-              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-base"
-              required
-              disabled={isSubmitting}
-            />
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Phone className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Телефон за връзка"
-              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-base"
-              disabled={isSubmitting}
-            />
           </div>
 
           {apartmentNumber && (
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Building2 className="h-5 w-5 text-gray-400" />
+            <div className="group">
+              <label className="block text-sm font-semibold text-neutral-700 mb-3">
+                Апартамент
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Building2 className="h-5 w-5 text-neutral-400" />
+                </div>
+                <input
+                  type="text"
+                  name="apartmentNumber"
+                  value={formData.apartmentNumber}
+                  onChange={handleChange}
+                  placeholder="Апартамент"
+                  className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl bg-neutral-50 text-base"
+                  readOnly
+                />
               </div>
-              <input
-                type="text"
-                name="apartmentNumber"
-                value={formData.apartmentNumber}
-                onChange={handleChange}
-                placeholder="Апартамент"
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-base bg-gray-50"
-                readOnly
-              />
             </div>
           )}
 
-          <div className="relative">
-            <div className="absolute top-3 left-3 pointer-events-none">
-              <MessageSquare className="h-5 w-5 text-gray-400" />
+          <div className="group">
+            <label className="block text-sm font-semibold text-neutral-700 mb-3">
+              Вашето съобщение *
+            </label>
+            <div className="relative">
+              <div className="absolute top-4 left-4 pointer-events-none">
+                <MessageSquare className="h-5 w-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
+              </div>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Разкажете ни повече за вашите изисквания..."
+                rows={5}
+                className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base resize-none transition-all duration-200 hover:border-neutral-300"
+                required
+                disabled={isSubmitting}
+              ></textarea>
             </div>
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              placeholder="Вашето съобщение"
-              rows={4}
-              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-base resize-none"
-              required
-              disabled={isSubmitting}
-            ></textarea>
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-primary text-white px-6 py-4 rounded-lg font-medium hover:bg-primary-dark transition duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-base"
+            className="w-full bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-5 rounded-xl font-semibold text-lg hover:from-primary-dark hover:to-primary transform hover:scale-[1.02] transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg hover:shadow-xl"
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                <Loader2 className="w-6 h-6 mr-3 animate-spin" />
                 Изпращане...
               </>
             ) : (
-              'Заяви консултация'
+              <>
+                <MessageSquare className="w-6 h-6 mr-3" />
+                Заяви консултация
+              </>
             )}
           </button>
         </form>
+        
+        <div className="mt-8 pt-6 border-t border-neutral-100 text-center">
+          <p className="text-sm text-neutral-500">
+            Ще се свържем с вас в рамките на <span className="font-semibold text-primary">24 часа</span>
+          </p>
+        </div>
+        </div>
       </div>
     </section>
   );
