@@ -22,9 +22,7 @@ service firebase.storage {
     // Public media files
     match /media/{fileName} {
       allow read: if true;
-      allow write: if isAuthenticated() &&
-                     (isValidImage() || isValidDocument()) &&
-                     isValidSize();
+      allow write: if isAuthenticated();
       allow delete: if isAuthenticated();
     }
 
@@ -40,27 +38,21 @@ service firebase.storage {
     // Apartment images and brochures
     match /apartments/{apartmentId}/{fileName} {
       allow read: if true;
-      allow write: if isAuthenticated() &&
-                     (isValidImage() || isValidDocument()) &&
-                     isValidSize();
+      allow write: if isAuthenticated();
       allow delete: if isAuthenticated();
     }
 
     // Store images
     match /stores/{storeId}/{fileName} {
       allow read: if true;
-      allow write: if isAuthenticated() &&
-                     isValidImage() &&
-                     isValidSize();
+      allow write: if isAuthenticated();
       allow delete: if isAuthenticated();
     }
 
     // Parking spot images
     match /parking/{fileName} {
       allow read: if true;
-      allow write: if isAuthenticated() &&
-                     isValidImage() &&
-                     isValidSize();
+      allow write: if isAuthenticated();
       allow delete: if isAuthenticated();
     }
 

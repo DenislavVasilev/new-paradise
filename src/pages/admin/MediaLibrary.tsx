@@ -57,15 +57,20 @@ const MediaLibrary = () => {
   };
 
   const onDrop = async (acceptedFiles: File[]) => {
-    if (!user) {
+    // Check if user is authenticated
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
       alert('Моля, влезте в системата за да качите файлове');
       return;
     }
 
     setIsUploading(true);
     try {
-      // Wait for auth token to be ready
-      await auth.currentUser?.getIdToken(true);
+      // Force refresh the auth token
+      await currentUser.getIdToken(true);
+      
+      // Wait a bit for the token to be processed
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       for (const file of acceptedFiles) {
         const timestamp = Date.now();
@@ -93,8 +98,10 @@ const MediaLibrary = () => {
       await fetchMediaFiles();
     } catch (error) {
       console.error('Error uploading files:', error);
-      if (error.code === 'storage/unauthorized') {
-        alert('Нямате права за качване на файлове. Моля, влезте отново в системата.');
+      if (error.code === 'storage/unauthorized' || error.code === 'auth/invalid-user-token') {
+        alert('Нямате права за качване на файлове. Моля, излезте и влезте отново в системата.');
+        // Redirect to login
+        window.location.href = '/admin/login';
       } else {
         alert('Грешка при качване на файловете: ' + error.message);
       }
