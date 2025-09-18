@@ -32,7 +32,7 @@ const Footer = () => {
               <span className="text-secondary">Paradise</span> Green Park
             </h3>
             <p className="text-neutral-200 mb-6">
-              Луксозен апартаментен комплекс в сърцето на Златни пясъци с изглед към морето.
+             Апартаменти за продажба в комплекс Златни Пясъци
             </p>
           </div>
 
