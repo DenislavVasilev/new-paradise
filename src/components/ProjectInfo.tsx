@@ -1,10 +1,18 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Building2, Map, Car, Waves, TreePine, Utensils, Wifi, Shield } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useHomepageContent } from '../lib/hooks/useHomepageContent';
+
+const getIconComponent = (iconName: string, iconColor: string) => {
+  const IconComponent = (LucideIcons as any)[iconName];
+  if (!IconComponent) {
+    return <LucideIcons.Building2 className={`w-8 h-8 ${iconColor}`} />;
+  }
+  return <IconComponent className={`w-8 h-8 ${iconColor}`} />;
+};
 
 const ProjectInfo = () => {
   const { content, loading: contentLoading } = useHomepageContent();
@@ -54,38 +62,6 @@ const ProjectInfo = () => {
   const goToSlide = (index: number) => {
     setCurrentImageIndex(index);
   };
-  const features = [
-    {
-      icon: <Building2 className="w-8 h-8 text-primary" />,
-      title: 'Архитектура',
-      description: 'Модерна архитектура с панорамни прозорци и просторни тераси с изглед към морето'
-    },
-    {
-      icon: <Waves className="w-8 h-8 text-blue-500" />,
-      title: 'Басейн & СПА',
-      description: 'Външен басейн с морска вода, джакузи и пълноценен СПА център за релакс'
-    },
-    {
-      icon: <TreePine className="w-8 h-8 text-green-500" />,
-      title: 'Градини',
-      description: 'Ландшафтни градини с тропически растения и зони за отдих сред природата'
-    },
-    {
-      icon: <Utensils className="w-8 h-8 text-amber-500" />,
-      title: 'Ресторант',
-      description: 'Изискан ресторант с международна кухня и специалитети от морски дарове'
-    },
-    {
-      icon: <Shield className="w-8 h-8 text-red-500" />,
-      title: 'Сигурност',
-      description: 'Денонощна охрана, контролиран достъп и видеонаблюдение в целия комплекс'
-    },
-    {
-      icon: <Wifi className="w-8 h-8 text-purple-500" />,
-      title: 'Удобства',
-      description: 'Безплатен WiFi, фитнес зала, детска площадка и бизнес център'
-    }
-  ];
 
   return (
     <section className="py-20 bg-white relative overflow-hidden">
@@ -114,14 +90,16 @@ const ProjectInfo = () => {
 
         {/* Features grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {features.map((feature, index) => (
+          {content.projectInfo.features
+            .sort((a, b) => a.order - b.order)
+            .map((feature, index) => (
             <div
-              key={index}
+              key={feature.id}
               className="group relative bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-neutral-100 hover:border-primary/20"
             >
               <div className="flex items-start space-x-4">
                 <div className="flex-shrink-0 p-3 rounded-lg bg-gradient-to-br from-neutral-50 to-neutral-100 group-hover:from-primary/10 group-hover:to-secondary/10 transition-all duration-300">
-                  {feature.icon}
+                  {getIconComponent(feature.icon, feature.iconColor)}
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-neutral-800 mb-2 group-hover:text-primary transition-colors">

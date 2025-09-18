@@ -735,6 +735,89 @@ const HomepageEditor = () => {
           </div>
         </div>
       )}
+
+      {/* Edit Feature Modal */}
+      {editingFeature && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+            <h3 className="text-lg font-semibold mb-4">Редактиране на характеристика</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Икона
+                </label>
+                <select
+                  value={editFeatureForm.icon}
+                  onChange={(e) => setEditFeatureForm({ ...editFeatureForm, icon: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                >
+                  {availableIcons.map(icon => (
+                    <option key={icon} value={icon}>{icon}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Цвят на иконата
+                </label>
+                <select
+                  value={editFeatureForm.iconColor}
+                  onChange={(e) => setEditFeatureForm({ ...editFeatureForm, iconColor: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                >
+                  {availableColors.map(color => (
+                    <option key={color.value} value={color.value}>
+                      {color.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Заглавие
+                </label>
+                <input
+                  type="text"
+                  value={editFeatureForm.title}
+                  onChange={(e) => setEditFeatureForm({ ...editFeatureForm, title: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Описание
+                </label>
+                <textarea
+                  value={editFeatureForm.description}
+                  onChange={(e) => setEditFeatureForm({ ...editFeatureForm, description: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setEditingFeature(null)}
+                  className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Отказ
+                </button>
+                <button
+                  onClick={() => handleSaveFeature(editingFeature, editFeatureForm)}
+                  disabled={isSaving}
+                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50"
+                >
+                  Запази
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
