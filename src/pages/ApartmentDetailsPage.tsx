@@ -355,11 +355,11 @@ const ApartmentDetailsPage = () => {
           </div>
 
           <div id="contact-form" className="hidden md:block">
-        <div id="contact-form" className="hidden md:block">
-          <ContactForm 
-            apartmentNumber={apartment.number} 
-            apartmentEntrance={apartment.entrance}
-          />
+            <ContactForm 
+              apartmentNumber={apartment.number} 
+              apartmentEntrance={apartment.entrance}
+            />
+          </div>
         </div>
       </div>
 
