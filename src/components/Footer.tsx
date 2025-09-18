@@ -33,7 +33,7 @@ const Footer = () => {
               </Link>
               <Link to="/gallery" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Галерия
-              </a>
+              </Link>
               <a href="/#contact" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Контакти
               </a>
