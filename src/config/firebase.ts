@@ -63,27 +63,11 @@ const initializeFirestoreWithRetry = async (retryCount = 0, maxRetries = 3) => {
     const db = initializeFirestore(app, {
       cacheSizeBytes: CACHE_SIZE_UNLIMITED,
       ignoreUndefinedProperties: true,
-      experimentalForceLongPolling: true, // Force long polling for more reliable connections
+      experimentalForceLongPolling: false, // Disable long polling in WebContainer
     });
 
-    // Connect to emulator if in development
-    if (import.meta.env.DEV) {
-      try {
-        // Skip emulator connection in WebContainer environment
-        const isWebContainer = typeof window !== 'undefined' && 
-          window.location.hostname.includes('webcontainer');
-
-        if (!isWebContainer) {
-          connectFirestoreEmulator(db, 'localhost', 8080);
-          console.log('Successfully connected to Firestore emulator');
-        } else {
-          console.log('Running in WebContainer - using production Firestore');
-        }
-      } catch (emulatorError) {
-        // Log the error but continue without the emulator
-        console.warn('Failed to connect to Firestore emulator:', emulatorError);
-      }
-    }
+    // Skip emulator in WebContainer environment
+    console.log('Using production Firestore');
 
     // Test the connection by enabling network
     await enableNetwork(db);
@@ -115,32 +99,12 @@ const storage = getStorage(app);
 if (typeof window !== 'undefined') {
   const setupPersistence = async () => {
     try {
-      // Check if IndexedDB is available
-      const indexedDB = window.indexedDB || 
-                       (window as any).mozIndexedDB || 
-                       (window as any).webkitIndexedDB || 
-                       (window as any).msIndexedDB;
-                       
-      if (!indexedDB) {
-        throw new Error('IndexedDB not supported in this browser');
-      }
-
-      await enableIndexedDbPersistence(db, {
-        forceOwnership: false,
-        synchronizeTabs: true
-      });
-      
-      console.log('Offline persistence enabled successfully');
+      // Skip persistence in WebContainer to avoid conflicts
+      console.log('Skipping offline persistence in WebContainer environment');
+      await enableNetwork(db).catch(console.error);
     } catch (err: any) {
-      if (err.code === 'failed-precondition') {
-        console.warn('Multiple tabs open, persistence enabled in first tab only');
-      } else if (err.code === 'unimplemented') {
-        console.warn('Browser does not support persistence');
-      } else {
-        console.error('Error enabling persistence:', err);
-        // Ensure we can still operate online
-        await enableNetwork(db).catch(console.error);
-      }
+      console.warn('Persistence setup skipped:', err.message);
+      await enableNetwork(db).catch(console.error);
     }
   };
 
