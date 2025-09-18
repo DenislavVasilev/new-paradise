@@ -15,7 +15,8 @@ import {
   X,
   ChevronRight,
   MessageSquare,
-  Wrench
+  Wrench,
+  MapPin
 } from 'lucide-react';
 
 const AdminLayout = () => {
@@ -27,6 +28,7 @@ const AdminLayout = () => {
     { name: 'Табло', href: '/admin', icon: LayoutDashboard },
     { name: 'Конфигурация', href: '/admin/building-config', icon: Wrench },
     { name: 'Начална страница', href: '/admin/homepage', icon: Home },
+    { name: 'Локация', href: '/admin/location', icon: MapPin },
     { name: 'Етажни планове', href: '/admin/floor-plans', icon: Building2 },
     { name: 'Апартаменти', href: '/admin/apartments', icon: Home },
     { name: 'Паркоместа', href: '/admin/parking', icon: Car },

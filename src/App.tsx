@@ -28,6 +28,7 @@ import MediaLibrary from './pages/admin/MediaLibrary';
 import Settings from './pages/admin/Settings';
 import ContactSubmissions from './pages/admin/ContactSubmissions';
 import BuildingConfigEditor from './pages/admin/BuildingConfigEditor';
+import LocationEditor from './pages/admin/LocationEditor';
 
 // Component to handle scroll to top on route change
 const ScrollToTop = () => {
@@ -77,6 +78,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="building-config" element={<BuildingConfigEditor />} />
           <Route path="homepage" element={<HomepageEditor />} />
+          <Route path="location" element={<LocationEditor />} />
           <Route path="homepage" element={<HomepageEditor />} />
           <Route path="floor-plans" element={<FloorPlansEditor />} />
           <Route path="apartments" element={<ApartmentsEditor />} />
