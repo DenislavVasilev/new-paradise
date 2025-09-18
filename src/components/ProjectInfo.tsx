@@ -4,8 +4,10 @@ import { Building2, Map, Car, Waves, TreePine, Utensils, Wifi, Shield } from 'lu
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { useHomepageContent } from '../lib/hooks/useHomepageContent';
 
 const ProjectInfo = () => {
+  const { content, loading: contentLoading } = useHomepageContent();
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -97,8 +99,8 @@ const ProjectInfo = () => {
       <div className="container-custom relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="text-primary">Луксозен живот</span>
-            <span className="block text-secondary mt-2">край морето</span>
+            <span className="text-primary">{contentLoading ? 'Зареждане...' : content.projectInfo.title}</span>
+            <span className="block text-secondary mt-2">{contentLoading ? '' : content.projectInfo.subtitle}</span>
           </h2>
           <div className="flex items-center justify-center space-x-4 mb-6">
             <div className="w-16 h-1 bg-primary rounded-full"></div>
@@ -106,8 +108,7 @@ const ProjectInfo = () => {
             <div className="w-16 h-1 bg-primary rounded-full"></div>
           </div>
           <p className="text-xl text-neutral-600 max-w-4xl mx-auto leading-relaxed">
-            Paradise Green Park предлага уникално съчетание от модерен комфорт, 
-            природна красота и морско спокойствие в сърцето на Златни пясъци
+            {contentLoading ? 'Зареждане на описанието...' : content.projectInfo.description}
           </p>
         </div>
 

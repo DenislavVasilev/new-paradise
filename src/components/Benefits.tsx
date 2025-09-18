@@ -1,75 +1,38 @@
 import React from 'react';
-import { Shield, Waves, TreePine, Utensils, Car, Home, Wifi, Dumbbell, Baby, Users, Coffee, Gamepad2 } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
+import { useHomepageContent } from '../lib/hooks/useHomepageContent';
 
 const Benefits = () => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1
   });
+  
+  const { content, loading } = useHomepageContent();
 
-  const benefits = [
-    {
-      icon: <Waves className="w-8 h-8 text-primary" />,
-      title: 'Басейн с морска вода',
-      description: 'Открит басейн с подгрявана морска вода и детска секция'
-    },
-    {
-      icon: <Utensils className="w-8 h-8 text-primary" />,
-      title: 'Ресторант & Бар',
-      description: 'Изискан ресторант с международна кухня и коктейл бар'
-    },
-    {
-      icon: <TreePine className="w-8 h-8 text-primary" />,
-      title: 'СПА & Уелнес център',
-      description: 'Пълноценен СПА център с масажи и релаксиращи процедури'
-    },
-    {
-      icon: <Shield className="w-8 h-8 text-primary" />,
-      title: 'Сигурност 24/7',
-      description: 'Денонощна охрана, видеонаблюдение и контролиран достъп'
-    },
-    {
-      icon: <Car className="w-8 h-8 text-primary" />,
-      title: 'Подземен паркинг',
-      description: 'Охраняеми паркоместа в подземен гараж за всички собственици'
-    },
-    {
-      icon: <Dumbbell className="w-8 h-8 text-primary" />,
-      title: 'Фитнес център',
-      description: 'Модерна фитнес зала с професионално оборудване'
-    },
-    {
-      icon: <Baby className="w-8 h-8 text-primary" />,
-      title: 'Детска площадка',
-      description: 'Безопасна и забавна детска зона с модерни съоръжения'
-    },
-    {
-      icon: <Users className="w-8 h-8 text-primary" />,
-      title: 'Консиерж услуги',
-      description: 'Професионални консиерж услуги за максимален комфорт'
-    },
-    {
-      icon: <Coffee className="w-8 h-8 text-primary" />,
-      title: 'Лоби бар',
-      description: 'Елегантен лоби бар за срещи и бизнес разговори'
-    },
-    {
-      icon: <Wifi className="w-8 h-8 text-primary" />,
-      title: 'Безплатен WiFi',
-      description: 'Високоскоростен интернет в целия комплекс'
-    },
-    {
-      icon: <Home className="w-8 h-8 text-primary" />,
-      title: 'Луксозни довършвания',
-      description: 'Висококачествени материали и модерен дизайн във всеки апартамент'
-    },
-    {
-      icon: <Gamepad2 className="w-8 h-8 text-primary" />,
-      title: 'Развлекателна зона',
-      description: 'Игрална зона и места за отдих и социализиране'
-    }
-  ];
+  const getIconComponent = (iconName: string) => {
+    const IconComponent = (LucideIcons as any)[iconName];
+    return IconComponent ? <IconComponent className="w-8 h-8 text-primary" /> : <LucideIcons.Star className="w-8 h-8 text-primary" />;
+  };
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="bg-gray-200 rounded-xl p-6 animate-pulse">
+                <div className="w-16 h-16 bg-gray-300 rounded-full mx-auto mb-6"></div>
+                <div className="h-4 bg-gray-300 rounded mb-3"></div>
+                <div className="h-3 bg-gray-300 rounded"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-white" id="benefits">
@@ -87,9 +50,17 @@ const Benefits = () => {
         
         <div
           ref={ref}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          className={`grid gap-8 ${
+            content.benefits.length <= 3 
+              ? 'grid-cols-1 md:grid-cols-3' 
+              : content.benefits.length <= 6
+              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+          }`}
         >
-          {benefits.map((benefit, index) => (
+          {content.benefits
+            .sort((a, b) => a.order - b.order)
+            .map((benefit, index) => (
             <div
               key={index}
               className={`group bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-500 transform border border-neutral-100 hover:border-primary/20 ${
@@ -99,7 +70,7 @@ const Benefits = () => {
             >
               {/* Icon container */}
               <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6 group-hover:bg-primary/20 transition-colors duration-300 mx-auto">
-                {benefit.icon}
+                {getIconComponent(benefit.icon)}
               </div>
               
               {/* Content */}
