@@ -323,7 +323,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, apartmentEnt
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+          <div className={`${apartmentNumber ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6' : ''}`}>
             <div className="group">
             <label className="block text-sm font-semibold text-neutral-700 mb-3">
               Телефон за връзка
