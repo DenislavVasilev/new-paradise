@@ -29,6 +29,12 @@ const HomepageEditor = () => {
   const [editingBenefit, setEditingBenefit] = useState<string | null>(null);
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+  
+  const [editForm, setEditForm] = useState({
+    icon: 'Waves',
+    title: '',
+    description: ''
+  });
 
   const [heroForm, setHeroForm] = useState({
     title: content.hero.title,
@@ -64,6 +70,20 @@ const HomepageEditor = () => {
       });
     }
   }, [content, loading]);
+
+  // Update editForm when editingBenefit changes
+  React.useEffect(() => {
+    if (editingBenefit) {
+      const benefit = content.benefits.find(b => b.id === editingBenefit);
+      if (benefit) {
+        setEditForm({
+          icon: benefit.icon,
+          title: benefit.title,
+          description: benefit.description
+        });
+      }
+    }
+  }, [editingBenefit, content.benefits]);
 
   const handleSaveHero = async () => {
     setIsSaving(true);
@@ -542,18 +562,7 @@ const HomepageEditor = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold mb-4">Редактиране на предимство</h3>
             
-            {(() => {
-              const benefit = content.benefits.find(b => b.id === editingBenefit);
-              if (!benefit) return null;
-
-              const [editForm, setEditForm] = useState({
-                icon: benefit.icon,
-                title: benefit.title,
-                description: benefit.description
-              });
-
-              return (
-                <div className="space-y-4">
+            <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Икона
@@ -608,9 +617,7 @@ const HomepageEditor = () => {
                       Запази
                     </button>
                   </div>
-                </div>
-              );
-            })()}
+            </div>
           </div>
         </div>
       )}
