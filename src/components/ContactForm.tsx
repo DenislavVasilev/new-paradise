@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, User, MessageSquare, Loader2, Building2 } from 'lucide-react';
+import { Mail, Phone, User, MessageSquare, Loader2, Building2, Send } from 'lucide-react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
@@ -100,13 +100,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
         )}
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
             <div className="group">
               <label className="block text-sm font-semibold text-neutral-700 mb-3">
                 Вашето име *
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-4 md:pl-5 flex items-center pointer-events-none">
                   <User className="h-5 w-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
                 </div>
                 <input
@@ -115,7 +115,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Въведете вашето име"
-                  className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base transition-all duration-200 hover:border-neutral-300"
+                  className="block w-full pl-12 md:pl-14 pr-4 py-4 md:py-5 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base md:text-lg transition-all duration-200 hover:border-neutral-300"
                   required
                   disabled={isSubmitting}
                 />
@@ -127,7 +127,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
                 Имейл адрес *
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-4 md:pl-5 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
                 </div>
                 <input
@@ -136,7 +136,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="your@email.com"
-                  className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base transition-all duration-200 hover:border-neutral-300"
+                  className="block w-full pl-12 md:pl-14 pr-4 py-4 md:py-5 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base md:text-lg transition-all duration-200 hover:border-neutral-300"
                   required
                   disabled={isSubmitting}
                 />
@@ -149,7 +149,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
               Телефон за връзка
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 left-0 pl-4 md:pl-5 flex items-center pointer-events-none">
                 <Phone className="h-5 w-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
               </div>
               <input
@@ -158,7 +158,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="+359 888 123 456"
-                className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base transition-all duration-200 hover:border-neutral-300"
+                className="block w-full pl-12 md:pl-14 pr-4 py-4 md:py-5 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base md:text-lg transition-all duration-200 hover:border-neutral-300"
                 disabled={isSubmitting}
               />
             </div>
@@ -170,7 +170,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
                 Апартамент
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-4 md:pl-5 flex items-center pointer-events-none">
                   <Building2 className="h-5 w-5 text-neutral-400" />
                 </div>
                 <input
@@ -179,7 +179,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
                   value={formData.apartmentNumber}
                   onChange={handleChange}
                   placeholder="Апартамент"
-                  className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl bg-neutral-50 text-base"
+                  className="block w-full pl-12 md:pl-14 pr-4 py-4 md:py-5 border-2 border-neutral-200 rounded-xl bg-neutral-50 text-base md:text-lg"
                   readOnly
                 />
               </div>
@@ -191,7 +191,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
               Вашето съобщение *
             </label>
             <div className="relative">
-              <div className="absolute top-4 left-4 pointer-events-none">
+              <div className="absolute top-4 md:top-5 left-4 md:left-5 pointer-events-none">
                 <MessageSquare className="h-5 w-5 text-neutral-400 group-focus-within:text-primary transition-colors" />
               </div>
               <textarea
@@ -199,8 +199,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Разкажете ни повече за вашите изисквания..."
-                rows={5}
-                className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base resize-none transition-all duration-200 hover:border-neutral-300"
+                rows={6}
+                className="block w-full pl-12 md:pl-14 pr-4 py-4 md:py-5 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base md:text-lg resize-none transition-all duration-200 hover:border-neutral-300"
                 required
                 disabled={isSubmitting}
               ></textarea>
@@ -210,16 +210,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-secondary to-secondary-dark text-white px-8 py-5 rounded-xl font-semibold text-lg hover:from-secondary-dark hover:to-secondary transform hover:scale-[1.02] transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg hover:shadow-xl"
+            className="w-full bg-gradient-to-r from-secondary to-secondary-dark text-white px-6 md:px-8 py-4 md:py-5 rounded-xl font-semibold text-base md:text-lg hover:from-secondary-dark hover:to-secondary transform hover:scale-[1.02] transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg hover:shadow-xl"
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="w-6 h-6 mr-3 animate-spin" />
+                <Loader2 className="w-5 h-5 md:w-6 md:h-6 mr-3 animate-spin" />
                 Изпращане...
               </>
             ) : (
               <>
-                <MessageSquare className="w-6 h-6 mr-3" />
+                <Send className="w-5 h-5 md:w-6 md:h-6 mr-3" />
                 Заяви консултация
               </>
             )}
@@ -228,7 +228,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
         
         <div className="mt-8 pt-6 border-t border-neutral-100 text-center">
           <p className="text-sm text-neutral-500">
-            Ще се свържем с вас в рамките на <span className="font-semibold text-primary">24 часа</span>
+            Ще се свържем с вас в рамките на <span className="font-semibold text-primary">24 часа</span> 📞
           </p>
         </div>
         </div>

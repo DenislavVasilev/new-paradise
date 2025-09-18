@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Home, Square, Euro, MapPin, Building2, Loader2, X, ChevronLeft, ChevronRight, Compass, Printer } from 'lucide-react';
+import { ArrowLeft, Home, Square, Euro, MapPin, Building2, Loader2, X, ChevronLeft, ChevronRight, Compass, Printer, ImageIcon } from 'lucide-react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import ContactForm from '../components/ContactForm';
@@ -178,35 +178,41 @@ const ApartmentDetailsPage = () => {
         <div className="container-custom">
           <button
             onClick={() => navigate('/apartments')}
-            className="inline-flex items-center text-primary hover:text-primary-dark mb-8"
+            className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Обратно към списъка
           </button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 mb-16">
             <div>
-              <div className="bg-white rounded-lg overflow-hidden shadow-md">
+              <div className="bg-white rounded-xl overflow-hidden shadow-lg">
                 <div className="relative cursor-pointer" onClick={() => handleImageClick(0)}>
                   <img
                     src={mainImage}
                     alt={`Апартамент ${apartment.number}`}
-                    className="w-full h-auto"
+                    className="w-full h-auto hover:scale-105 transition-transform duration-300"
                   />
+                  <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
+                    <div className="opacity-0 hover:opacity-100 transition-opacity duration-300 bg-white/20 backdrop-blur-sm rounded-full p-3">
+                      <ImageIcon className="w-6 h-6 text-white" />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="grid grid-cols-2 gap-4 mt-6">
                 {additionalImages.map((image, index) => (
-                  <div key={index} className="bg-white rounded-lg overflow-hidden shadow-md">
+                  <div key={index} className="bg-white rounded-xl overflow-hidden shadow-lg group">
                     <div 
-                      className="relative cursor-pointer" 
+                      className="relative cursor-pointer overflow-hidden" 
                       onClick={() => handleImageClick(index + 1)}
                     >
                       <img
                         src={image}
                         alt={`Апартамент ${apartment.number} - изглед ${index + 2}`}
-                        className="w-full h-auto"
+                        className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
                       />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                     </div>
                   </div>
                 ))}
@@ -214,9 +220,9 @@ const ApartmentDetailsPage = () => {
             </div>
 
             <div>
-              <div className="bg-white rounded-lg p-8 shadow-md">
+              <div className="bg-white rounded-xl p-6 lg:p-8 shadow-lg">
                 <div className="flex justify-between items-start mb-6">
-                  <h1 className="text-3xl font-bold">Апартамент {apartment.number}</h1>
+                  <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Апартамент {apartment.number}</h1>
                   <div className="flex items-center gap-2">
                     <span className={`px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(apartment.status)}`}>
                       {getStatusText(apartment.status)}
@@ -235,83 +241,95 @@ const ApartmentDetailsPage = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-8">
                   <div className="flex items-center">
-                    <Building2 className="w-5 h-5 text-accent mr-2" />
+                    <div className="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                      <Building2 className="w-5 h-5 text-primary" />
+                    </div>
                     <div>
                       <p className="text-sm text-neutral-600">Етаж</p>
-                      <p className="font-semibold">{apartment.floor}</p>
+                      <p className="font-semibold text-gray-900">{apartment.floor}</p>
                     </div>
                   </div>
                   <div className="flex items-center">
-                    <MapPin className="w-5 h-5 text-accent mr-2" />
+                    <div className="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                      <MapPin className="w-5 h-5 text-primary" />
+                    </div>
                     <div>
                       <p className="text-sm text-neutral-600">Вход</p>
-                      <p className="font-semibold">{getEntranceLabel(apartment.entrance)}</p>
+                      <p className="font-semibold text-gray-900">{getEntranceLabel(apartment.entrance)}</p>
                     </div>
                   </div>
                   <div className="flex items-center">
-                    <Home className="w-5 h-5 text-accent mr-2" />
+                    <div className="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                      <Home className="w-5 h-5 text-primary" />
+                    </div>
                     <div>
                       <p className="text-sm text-neutral-600">Стаи</p>
-                      <p className="font-semibold">{apartment.rooms}</p>
+                      <p className="font-semibold text-gray-900">{apartment.rooms}</p>
                     </div>
                   </div>
                   {apartment.netArea && (
                     <div className="flex items-center">
-                      <Square className="w-5 h-5 text-accent mr-2" />
+                      <div className="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                        <Square className="w-5 h-5 text-primary" />
+                      </div>
                       <div>
                         <p className="text-sm text-neutral-600">Чиста площ</p>
-                        <p className="font-semibold">{apartment.netArea} м²</p>
+                        <p className="font-semibold text-gray-900">{apartment.netArea} м²</p>
                       </div>
                     </div>
                   )}
                   <div className="flex items-center">
-                    <Square className="w-5 h-5 text-accent mr-2" />
+                    <div className="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                      <Square className="w-5 h-5 text-primary" />
+                    </div>
                     <div>
                       <p className="text-sm text-neutral-600">Обща площ</p>
-                      <p className="font-semibold">{apartment.area} м²</p>
+                      <p className="font-semibold text-gray-900">{apartment.area} м²</p>
                     </div>
                   </div>
                   <div className="flex items-center">
-                    <Compass className="w-5 h-5 text-accent mr-2" />
+                    <div className="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+                      <Compass className="w-5 h-5 text-primary" />
+                    </div>
                     <div>
                       <p className="text-sm text-neutral-600">Изложение</p>
-                      <p className="font-semibold">{getExposureText(apartment.exposure)}</p>
+                      <p className="font-semibold text-gray-900">{getExposureText(apartment.exposure)}</p>
                     </div>
                   </div>
                 </div>
 
                 {apartment.description && (
                   <div className="mb-8">
-                    <h2 className="text-xl font-semibold mb-4 font-sans">Описание</h2>
-                    <p className="text-neutral-600">{apartment.description}</p>
+                    <h2 className="text-xl font-semibold mb-4 text-gray-900">Описание</h2>
+                    <p className="text-neutral-600 leading-relaxed">{apartment.description}</p>
                   </div>
                 )}
 
                 <div className="mb-8">
-                  <h2 className="text-xl font-semibold mb-4 font-sans">Характеристики</h2>
-                  <ul className="grid grid-cols-2 gap-3">
+                  <h2 className="text-xl font-semibold mb-4 text-gray-900">Характеристики</h2>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {apartment.features.map((feature, index) => (
-                      <li key={index} className="flex items-center text-neutral-600">
-                        <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                        {feature}
+                      <li key={index} className="flex items-start text-neutral-600">
+                        <span className="w-2 h-2 bg-primary rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                        <span className="leading-relaxed">{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 {apartment.price > 0 && (
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl">
                     <div>
                       <p className="text-sm text-neutral-600">Цена</p>
-                      <div className="flex items-center">
-                        <Euro className="w-6 h-6 text-accent mr-2" />
-                        <span className="text-3xl font-bold">€{apartment.price.toLocaleString()}</span>
+                      <div className="flex items-center mt-1">
+                        <Euro className="w-6 h-6 text-primary mr-2" />
+                        <span className="text-2xl lg:text-3xl font-bold text-gray-900">€{apartment.price.toLocaleString()}</span>
                       </div>
                     </div>
                     <button
-                      className="bg-primary text-white px-8 py-3 rounded-lg hover:bg-primary-dark transition duration-300"
+                      className="w-full sm:w-auto bg-primary text-white px-8 py-4 rounded-xl hover:bg-primary-dark transition duration-300 font-medium shadow-lg hover:shadow-xl"
                       disabled={apartment.status === 'sold'}
                       onClick={() => {
                         const contactForm = document.getElementById('contact-form');
