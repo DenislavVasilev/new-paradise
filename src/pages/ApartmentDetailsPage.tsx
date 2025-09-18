@@ -327,7 +327,6 @@ const ApartmentDetailsPage = () => {
                     <div>
                       <p className="text-sm text-neutral-600">Цена</p>
                       <div className="flex items-center mt-1">
-                        <Euro className="w-6 h-6 text-primary mr-2" />
                         <span className="text-2xl lg:text-3xl font-bold text-gray-900">€{apartment.price.toLocaleString()}</span>
                       </div>
                     </div>
