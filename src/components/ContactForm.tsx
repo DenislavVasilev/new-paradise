@@ -5,17 +5,18 @@ import { db } from '../lib/firebase';
 
 interface ContactFormProps {
   apartmentNumber?: string;
+  apartmentEntrance?: string;
   isModal?: boolean;
   onClose?: () => void;
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, isModal = false, onClose }) => {
+const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, apartmentEntrance, isModal = false, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     message: '',
-    apartmentNumber: apartmentNumber || ''
+    apartmentNumber: apartmentNumber && apartmentEntrance ? `${apartmentNumber} (Вход ${apartmentEntrance === '1' ? 'А' : 'Б'})` : apartmentNumber || ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
@@ -41,6 +42,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, isModal = fa
         phone: '',
         message: '',
         apartmentNumber: apartmentNumber || ''
+        apartmentNumber: apartmentNumber && apartmentEntrance ? `${apartmentNumber} (Вход ${apartmentEntrance === '1' ? 'А' : 'Б'})` : apartmentNumber || ''
       });
 
       setSubmitStatus({

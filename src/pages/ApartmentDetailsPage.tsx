@@ -361,6 +361,7 @@ const ApartmentDetailsPage = () => {
                   Интересувате се от Апартамент {apartment.number}?
                 </h2>
                 <ContactForm apartmentNumber={apartment.number} />
+                <ContactForm apartmentNumber={apartment.number} apartmentEntrance={apartment.entrance} />
               </div>
             </div>
           </div>
@@ -371,6 +372,7 @@ const ApartmentDetailsPage = () => {
       {showContactModal && (
         <ContactForm
           apartmentNumber={apartment.number}
+          apartmentEntrance={apartment.entrance}
           isModal={true}
           onClose={() => setShowContactModal(false)}
         />
