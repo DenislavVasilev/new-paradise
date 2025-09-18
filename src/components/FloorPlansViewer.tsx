@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, ZoomIn, ZoomOut, Move } from 'lucide-react';
 import { useFloorPlans } from '../lib/hooks/useFloorPlans';
 import { useApartments } from '../lib/hooks/useApartments';
+import { useBuildingConfig } from '../lib/hooks/useBuildingConfig';
 import { Link } from 'react-router-dom';
 
 interface Point {
@@ -16,6 +17,7 @@ interface ApartmentShape {
 }
 
 const FloorPlansViewer = () => {
+  const { config: buildingConfig, getAvailableFloors } = useBuildingConfig();
   const [selectedEntrance, setSelectedEntrance] = useState('1');
   const [selectedFloor, setSelectedFloor] = useState(1);
   const [transform, setTransform] = useState({ scale: 1, translateX: 0, translateY: 0 });
@@ -159,8 +161,11 @@ const FloorPlansViewer = () => {
               onChange={(e) => setSelectedEntrance(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-lg appearance-none bg-white pr-8"
             >
-              <option value="1">Вход А</option>
-              <option value="2">Вход Б</option>
+              {buildingConfig.entrances.map((entrance) => (
+                <option key={entrance.id} value={entrance.id}>
+                  {entrance.name}
+                </option>
+              ))}
             </select>
             <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
           </div>
@@ -171,8 +176,8 @@ const FloorPlansViewer = () => {
               onChange={(e) => setSelectedFloor(Number(e.target.value))}
               className="w-full p-2 border border-gray-300 rounded-lg appearance-none bg-white pr-8"
             >
-              {Array.from({ length: 11 }, (_, i) => (
-                <option key={i + 1} value={i + 1}>Етаж {i + 1}</option>
+              {getAvailableFloors(selectedEntrance).map((floor) => (
+                <option key={floor} value={floor}>Етаж {floor}</option>
               ))}
             </select>
             <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />

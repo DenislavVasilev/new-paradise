@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { ChevronDown, Loader2 } from 'lucide-react';
 import { useApartments } from '../lib/hooks/useApartments';
+import { useBuildingConfig } from '../lib/hooks/useBuildingConfig';
 import { Link } from 'react-router-dom';
 
 const ApartmentCatalog = () => {
+  const { config: buildingConfig, getEntranceName, getEntranceLabel, getAvailableFloors } = useBuildingConfig();
   const [selectedEntrance, setSelectedEntrance] = useState<string>('всички');
   const [selectedFloor, setSelectedFloor] = useState<string>('всички');
   const [selectedType, setSelectedType] = useState<string>('всички');
@@ -31,7 +33,7 @@ const ApartmentCatalog = () => {
   };
 
   const getEntranceLabel = (entrance: string) => {
-    return entrance === '1' ? 'А' : entrance === '2' ? 'Б' : entrance;
+    return buildingConfig.getEntranceLabel(entrance);
   };
 
   if (loading) {
@@ -64,8 +66,11 @@ const ApartmentCatalog = () => {
               className="w-full p-2 border border-gray-300 rounded-lg appearance-none bg-white pr-8"
             >
               <option value="всички">Всички входове</option>
-              <option value="1">Вход А</option>
-              <option value="2">Вход Б</option>
+              {buildingConfig.entrances.map((entrance) => (
+                <option key={entrance.id} value={entrance.id}>
+                  {entrance.name}
+                </option>
+              ))}
             </select>
             <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
           </div>
@@ -77,8 +82,8 @@ const ApartmentCatalog = () => {
               className="w-full p-2 border border-gray-300 rounded-lg appearance-none bg-white pr-8"
             >
               <option value="всички">Всички етажи</option>
-              {Array.from({ length: 11 }, (_, i) => (
-                <option key={i + 1} value={String(i + 1)}>Етаж {i + 1}</option>
+              {getAvailableFloors(selectedEntrance === 'всички' ? undefined : selectedEntrance).map((floor) => (
+                <option key={floor} value={String(floor)}>Етаж {floor}</option>
               ))}
             </select>
             <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />

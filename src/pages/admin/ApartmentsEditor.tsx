@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Plus, Pencil, Trash2, Save, X, Building2, Loader2, Upload, Image as ImageIcon, Star, ChevronDown, FileText, Download, Filter } from 'lucide-react';
 import { useApartments } from '../../lib/hooks/useApartments';
+import { useBuildingConfig } from '../../lib/hooks/useBuildingConfig';
 import Input from '../../components/Input';
 
 interface ApartmentFormData {
@@ -41,6 +42,7 @@ const initialFormData: ApartmentFormData = {
 };
 
 const ApartmentsEditor = () => {
+  const { config: buildingConfig, getAvailableFloors, getEntranceLabel } = useBuildingConfig();
   const { 
     apartments, 
     loading, 
@@ -182,7 +184,7 @@ const ApartmentsEditor = () => {
   };
 
   const getEntranceLabel = (entrance: string) => {
-    return entrance === '1' ? 'А' : entrance === '2' ? 'Б' : entrance;
+    return buildingConfig.getEntranceLabel(entrance);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -282,8 +284,11 @@ const ApartmentsEditor = () => {
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
                 <option value="all">Всички</option>
-                <option value="1">Вход А</option>
-                <option value="2">Вход Б</option>
+                {buildingConfig.entrances.map((entrance) => (
+                  <option key={entrance.id} value={entrance.id}>
+                    {entrance.name}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -297,8 +302,8 @@ const ApartmentsEditor = () => {
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
                 <option value="all">Всички</option>
-                {Array.from({ length: 11 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>Етаж {i + 1}</option>
+                {getAvailableFloors().map((floor) => (
+                  <option key={floor} value={floor}>Етаж {floor}</option>
                 ))}
               </select>
             </div>
@@ -367,8 +372,11 @@ const ApartmentsEditor = () => {
                 onChange={(e) => handleInputChange('entrance', e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                <option value="1">Вход А</option>
-                <option value="2">Вход Б</option>
+                {buildingConfig.entrances.map((entrance) => (
+                  <option key={entrance.id} value={entrance.id}>
+                    {entrance.name}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -407,8 +415,8 @@ const ApartmentsEditor = () => {
                 }}
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                {Array.from({ length: 11 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>Етаж {i + 1}</option>
+                {getAvailableFloors(formData.entrance).map((floor) => (
+                  <option key={floor} value={floor}>Етаж {floor}</option>
                 ))}
               </select>
             </div>
@@ -423,8 +431,8 @@ const ApartmentsEditor = () => {
                   onChange={(e) => setFormData({ ...formData, secondaryFloor: Number(e.target.value) })}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 >
-                  {Array.from({ length: 11 }, (_, i) => (
-                    <option key={i + 1} value={i + 1}>Етаж {i + 1}</option>
+                  {getAvailableFloors(formData.entrance).map((floor) => (
+                    <option key={floor} value={floor}>Етаж {floor}</option>
                   ))}
                 </select>
               </div>

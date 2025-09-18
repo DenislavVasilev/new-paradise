@@ -3,6 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { Upload, Save, Trash2, Building2, Loader2, Pencil, Square, Move, X } from 'lucide-react';
 import { useFloorPlans } from '../../lib/hooks/useFloorPlans';
 import { useApartments } from '../../lib/hooks/useApartments';
+import { useBuildingConfig } from '../../lib/hooks/useBuildingConfig';
 
 interface Point {
   x: number;
@@ -16,6 +17,7 @@ interface ApartmentShape {
 }
 
 const FloorPlansEditor = () => {
+  const { config: buildingConfig, getAvailableFloors } = useBuildingConfig();
   const [selectedEntrance, setSelectedEntrance] = useState('1');
   const [selectedFloor, setSelectedFloor] = useState(1);
   const [shapes, setShapes] = useState<ApartmentShape[]>([]);
@@ -282,16 +284,19 @@ const FloorPlansEditor = () => {
             onChange={(e) => setSelectedEntrance(e.target.value)}
             className="px-4 py-2 border rounded-lg bg-white shadow-sm hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors"
           >
-            <option value="1">Вход А</option>
-            <option value="2">Вход Б</option>
+            {buildingConfig.entrances.map((entrance) => (
+              <option key={entrance.id} value={entrance.id}>
+                {entrance.name}
+              </option>
+            ))}
           </select>
           <select
             value={selectedFloor}
             onChange={(e) => setSelectedFloor(Number(e.target.value))}
             className="px-4 py-2 border rounded-lg bg-white shadow-sm hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors"
           >
-            {Array.from({ length: 11 }, (_, i) => (
-              <option key={i + 1} value={i + 1}>Етаж {i + 1}</option>
+            {getAvailableFloors(selectedEntrance).map((floor) => (
+              <option key={floor} value={floor}>Етаж {floor}</option>
             ))}
           </select>
         </div>
