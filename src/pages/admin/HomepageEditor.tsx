@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Home, Save, Plus, Trash2, GripVertical, Loader2, Upload, Image as ImageIcon } from 'lucide-react';
-import { useHomepageContent, BenefitItem } from '../../lib/hooks/useHomepageContent';
+import { Home, Save, Plus, Trash2, GripVertical, Loader2, Upload, Image as ImageIcon, Palette } from 'lucide-react';
+import { useHomepageContent, BenefitItem, ProjectFeature } from '../../lib/hooks/useHomepageContent';
 import { useDropzone } from 'react-dropzone';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../lib/firebase';
@@ -11,6 +11,18 @@ const availableIcons = [
   'Heart', 'Zap', 'Award', 'Gift', 'Music', 'Camera', 'Phone', 'Mail'
 ];
 
+const availableColors = [
+  { value: 'text-primary', label: 'Зелен', color: 'bg-primary' },
+  { value: 'text-blue-500', label: 'Син', color: 'bg-blue-500' },
+  { value: 'text-green-500', label: 'Светло зелен', color: 'bg-green-500' },
+  { value: 'text-amber-500', label: 'Жълт', color: 'bg-amber-500' },
+  { value: 'text-red-500', label: 'Червен', color: 'bg-red-500' },
+  { value: 'text-purple-500', label: 'Лилав', color: 'bg-purple-500' },
+  { value: 'text-orange-500', label: 'Оранжев', color: 'bg-orange-500' },
+  { value: 'text-cyan-500', label: 'Циан', color: 'bg-cyan-500' },
+  { value: 'text-pink-500', label: 'Розов', color: 'bg-pink-500' },
+  { value: 'text-indigo-500', label: 'Индиго', color: 'bg-indigo-500' }
+];
 const HomepageEditor = () => {
   const {
     content,
@@ -18,6 +30,10 @@ const HomepageEditor = () => {
     error,
     updateHero,
     updateProjectInfo,
+    updateProjectFeature,
+    addProjectFeature,
+    removeProjectFeature,
+    reorderProjectFeatures,
     updateBenefit,
     addBenefit,
     removeBenefit,
@@ -27,7 +43,9 @@ const HomepageEditor = () => {
   const [activeTab, setActiveTab] = useState<'hero' | 'benefits' | 'projectInfo'>('hero');
   const [isSaving, setIsSaving] = useState(false);
   const [editingBenefit, setEditingBenefit] = useState<string | null>(null);
+  const [editingFeature, setEditingFeature] = useState<string | null>(null);
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
+  const [draggedFeature, setDraggedFeature] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
   
   const [editForm, setEditForm] = useState({
@@ -55,6 +73,19 @@ const HomepageEditor = () => {
     description: ''
   });
 
+  const [featureForm, setFeatureForm] = useState({
+    icon: 'Building2',
+    title: '',
+    description: '',
+    iconColor: 'text-primary'
+  });
+
+  const [editFeatureForm, setEditFeatureForm] = useState({
+    icon: 'Building2',
+    title: '',
+    description: '',
+    iconColor: 'text-primary'
+  });
   React.useEffect(() => {
     if (!loading) {
       setHeroForm({
@@ -85,6 +116,20 @@ const HomepageEditor = () => {
     }
   }, [editingBenefit, content.benefits]);
 
+  // Update editFeatureForm when editingFeature changes
+  React.useEffect(() => {
+    if (editingFeature) {
+      const feature = content.projectInfo.features.find(f => f.id === editingFeature);
+      if (feature) {
+        setEditFeatureForm({
+          icon: feature.icon,
+          title: feature.title,
+          description: feature.description,
+          iconColor: feature.iconColor
+        });
+      }
+    }
+  }, [editingFeature, content.projectInfo.features]);
   const handleSaveHero = async () => {
     setIsSaving(true);
     try {
@@ -121,6 +166,17 @@ const HomepageEditor = () => {
     }
   };
 
+  const handleSaveFeature = async (featureId: string, data: Partial<ProjectFeature>) => {
+    setIsSaving(true);
+    try {
+      await updateProjectFeature(featureId, data);
+      setEditingFeature(null);
+    } catch (error) {
+      alert('Грешка при запазване');
+    } finally {
+      setIsSaving(false);
+    }
+  };
   const handleAddBenefit = async () => {
     if (!benefitForm.title || !benefitForm.description) {
       alert('Моля, попълнете всички полета');
@@ -139,6 +195,23 @@ const HomepageEditor = () => {
     }
   };
 
+  const handleAddFeature = async () => {
+    if (!featureForm.title || !featureForm.description) {
+      alert('Моля, попълнете всички полета');
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      await addProjectFeature(featureForm);
+      setFeatureForm({ icon: 'Building2', title: '', description: '', iconColor: 'text-primary' });
+      alert('Характеристиката е добавена успешно!');
+    } catch (error) {
+      alert('Грешка при добавяне');
+    } finally {
+      setIsSaving(false);
+    }
+  };
   const handleDeleteBenefit = async (benefitId: string) => {
     if (window.confirm('Сигурни ли сте, че искате да изтриете това предимство?')) {
       setIsSaving(true);
@@ -152,6 +225,18 @@ const HomepageEditor = () => {
     }
   };
 
+  const handleDeleteFeature = async (featureId: string) => {
+    if (window.confirm('Сигурни ли сте, че искате да изтриете тази характеристика?')) {
+      setIsSaving(true);
+      try {
+        await removeProjectFeature(featureId);
+      } catch (error) {
+        alert('Грешка при изтриване');
+      } finally {
+        setIsSaving(false);
+      }
+    }
+  };
   const handleDragStart = (e: React.DragEvent, benefitId: string) => {
     setDraggedItem(benefitId);
     e.dataTransfer.effectAllowed = 'move';
@@ -187,6 +272,35 @@ const HomepageEditor = () => {
     }
   };
 
+  const handleFeatureDragStart = (e: React.DragEvent, featureId: string) => {
+    setDraggedFeature(featureId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleFeatureDrop = async (e: React.DragEvent, targetId: string) => {
+    e.preventDefault();
+    
+    if (!draggedFeature || draggedFeature === targetId) return;
+
+    const features = [...content.projectInfo.features];
+    const draggedIndex = features.findIndex(f => f.id === draggedFeature);
+    const targetIndex = features.findIndex(f => f.id === targetId);
+
+    if (draggedIndex === -1 || targetIndex === -1) return;
+
+    const [draggedFeatureItem] = features.splice(draggedIndex, 1);
+    features.splice(targetIndex, 0, draggedFeatureItem);
+
+    setIsSaving(true);
+    try {
+      await reorderProjectFeatures(features);
+    } catch (error) {
+      alert('Грешка при преподреждане');
+    } finally {
+      setIsSaving(false);
+      setDraggedFeature(null);
+    }
+  };
   const uploadBackgroundImage = async (file: File) => {
     try {
       setUploadingImage(true);

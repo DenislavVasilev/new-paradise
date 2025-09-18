@@ -21,6 +21,16 @@ export interface ProjectInfoContent {
   title: string;
   subtitle: string;
   description: string;
+  features: ProjectFeature[];
+}
+
+export interface ProjectFeature {
+  id: string;
+  icon: string;
+  title: string;
+  description: string;
+  iconColor: string;
+  order: number;
 }
 
 export interface HomepageContent {
@@ -86,7 +96,57 @@ const defaultContent: HomepageContent = {
   projectInfo: {
     title: 'Луксозен живот',
     subtitle: 'край морето',
-    description: 'Paradise Green Park предлага уникално съчетание от модерен комфорт, природна красота и морско спокойствие в сърцето на Златни пясъци'
+    description: 'Paradise Green Park предлага уникално съчетание от модерен комфорт, природна красота и морско спокойствие в сърцето на Златни пясъци',
+    features: [
+      {
+        id: '1',
+        icon: 'Building2',
+        title: 'Архитектура',
+        description: 'Модерна архитектура с панорамни прозорци и просторни тераси с изглед към морето',
+        iconColor: 'text-primary',
+        order: 1
+      },
+      {
+        id: '2',
+        icon: 'Waves',
+        title: 'Басейн & СПА',
+        description: 'Външен басейн с морска вода, джакузи и пълноценен СПА център за релакс',
+        iconColor: 'text-blue-500',
+        order: 2
+      },
+      {
+        id: '3',
+        icon: 'TreePine',
+        title: 'Градини',
+        description: 'Ландшафтни градини с тропически растения и зони за отдих сред природата',
+        iconColor: 'text-green-500',
+        order: 3
+      },
+      {
+        id: '4',
+        icon: 'Utensils',
+        title: 'Ресторант',
+        description: 'Изискан ресторант с международна кухня и специалитети от морски дарове',
+        iconColor: 'text-amber-500',
+        order: 4
+      },
+      {
+        id: '5',
+        icon: 'Shield',
+        title: 'Сигурност',
+        description: 'Денонощна охрана, контролиран достъп и видеонаблюдение в целия комплекс',
+        iconColor: 'text-red-500',
+        order: 5
+      },
+      {
+        id: '6',
+        icon: 'Wifi',
+        title: 'Удобства',
+        description: 'Безплатен WiFi, фитнес зала, детска площадка и бизнес център',
+        iconColor: 'text-purple-500',
+        order: 6
+      }
+    ]
   }
 };
 
@@ -157,6 +217,55 @@ export const useHomepageContent = () => {
     return await saveContent(updatedContent);
   };
 
+  const updateProjectFeature = async (featureId: string, featureData: Partial<ProjectFeature>) => {
+    const updatedFeatures = content.projectInfo.features.map(feature =>
+      feature.id === featureId ? { ...feature, ...featureData } : feature
+    );
+    const updatedContent = {
+      ...content,
+      projectInfo: { ...content.projectInfo, features: updatedFeatures }
+    };
+    return await saveContent(updatedContent);
+  };
+
+  const addProjectFeature = async (featureData: Omit<ProjectFeature, 'id' | 'order'>) => {
+    const newFeature: ProjectFeature = {
+      ...featureData,
+      id: Date.now().toString(),
+      order: content.projectInfo.features.length + 1
+    };
+    const updatedContent = {
+      ...content,
+      projectInfo: {
+        ...content.projectInfo,
+        features: [...content.projectInfo.features, newFeature]
+      }
+    };
+    return await saveContent(updatedContent);
+  };
+
+  const removeProjectFeature = async (featureId: string) => {
+    const updatedFeatures = content.projectInfo.features
+      .filter(feature => feature.id !== featureId)
+      .map((feature, index) => ({ ...feature, order: index + 1 }));
+    
+    const updatedContent = {
+      ...content,
+      projectInfo: { ...content.projectInfo, features: updatedFeatures }
+    };
+    return await saveContent(updatedContent);
+  };
+
+  const reorderProjectFeatures = async (features: ProjectFeature[]) => {
+    const updatedContent = {
+      ...content,
+      projectInfo: {
+        ...content.projectInfo,
+        features: features.map((feature, index) => ({ ...feature, order: index + 1 }))
+      }
+    };
+    return await saveContent(updatedContent);
+  };
   const updateBenefit = async (benefitId: string, benefitData: Partial<BenefitItem>) => {
     const updatedBenefits = content.benefits.map(benefit =>
       benefit.id === benefitId ? { ...benefit, ...benefitData } : benefit
@@ -211,6 +320,10 @@ export const useHomepageContent = () => {
     error,
     updateHero,
     updateProjectInfo,
+    updateProjectFeature,
+    addProjectFeature,
+    removeProjectFeature,
+    reorderProjectFeatures,
     updateBenefit,
     addBenefit,
     removeBenefit,

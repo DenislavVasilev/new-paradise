@@ -213,7 +213,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-5 rounded-xl font-semibold text-lg hover:from-primary-dark hover:to-primary transform hover:scale-[1.02] transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg hover:shadow-xl"
+            className="w-full bg-gradient-to-r from-secondary to-secondary-dark text-white px-8 py-5 rounded-xl font-semibold text-lg hover:from-secondary-dark hover:to-secondary transform hover:scale-[1.02] transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg hover:shadow-xl"
           >
             {isSubmitting ? (
               <>
