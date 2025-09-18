@@ -1,8 +1,28 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { collection, query, getDocs } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 const Footer = () => {
+  const [showNavigator, setShowNavigator] = useState(false);
+
+  useEffect(() => {
+    const checkForFloorPlans = async () => {
+      try {
+        const q = query(collection(db, 'floorPlans'));
+        const querySnapshot = await getDocs(q);
+        setShowNavigator(querySnapshot.size > 0);
+      } catch (error) {
+        console.error('Error checking floor plans:', error);
+        setShowNavigator(false);
+      }
+    };
+
+    checkForFloorPlans();
+  }, []);
+
   return (
     <footer className="bg-primary text-white py-16">
       <div className="container-custom">
@@ -28,9 +48,11 @@ const Footer = () => {
               <Link to="/gallery" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Галерия
               </Link>
-              <Link to="/navigator" className="block text-neutral-200 hover:text-secondary transition duration-300">
-                Навигатор
-              </Link>
+              {showNavigator && (
+                <Link to="/navigator" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                  Навигатор
+                </Link>
+              )}
               <a href="/#contact" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Контакти
               </a>
