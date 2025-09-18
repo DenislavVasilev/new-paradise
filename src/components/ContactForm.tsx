@@ -41,7 +41,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, apartmentEnt
         email: '',
         phone: '',
         message: '',
-        apartmentNumber: apartmentNumber || ''
         apartmentNumber: apartmentNumber && apartmentEntrance ? `${apartmentNumber} (Вход ${apartmentEntrance === '1' ? 'А' : 'Б'})` : apartmentNumber || ''
       });
 
