@@ -183,10 +183,6 @@ const ApartmentsEditor = () => {
     }
   };
 
-  const getEntranceLabel = (entrance: string) => {
-    return buildingConfig.getEntranceLabel(entrance);
-  };
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg', '.webp']
