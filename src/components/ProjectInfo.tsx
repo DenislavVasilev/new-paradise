@@ -39,16 +39,6 @@ const ProjectInfo = () => {
     fetchGalleryImages();
   }, []);
 
-  useEffect(() => {
-    if (galleryImages.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
-      }, 5000); // Change image every 5 seconds
-
-      return () => clearInterval(interval);
-    }
-  }, [galleryImages.length]);
-
   const goToPrevious = () => {
     setCurrentImageIndex((prev) => 
       prev === 0 ? galleryImages.length - 1 : prev - 1
