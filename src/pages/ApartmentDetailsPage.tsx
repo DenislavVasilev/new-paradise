@@ -355,15 +355,11 @@ const ApartmentDetailsPage = () => {
           </div>
 
           <div id="contact-form" className="hidden md:block">
-            <div className="max-w-3xl mx-auto">
-              <div className="bg-white rounded-lg shadow-lg p-8">
-                <h2 className="text-2xl font-bold text-center mb-8">
-                  Интересувате се от Апартамент {apartment.number}?
-                </h2>
-                <ContactForm apartmentNumber={apartment.number} />
-              </div>
-            </div>
-          </div>
+        <div id="contact-form" className="hidden md:block">
+          <ContactForm 
+            apartmentNumber={apartment.number} 
+            apartmentEntrance={apartment.entrance}
+          />
         </div>
       </div>
 
