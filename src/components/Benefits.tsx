@@ -68,7 +68,7 @@ const Benefits = () => {
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               {/* Icon container */}
-              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6 group-hover:bg-primary/20 transition-colors duration-300">
+              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6 group-hover:bg-primary/20 transition-colors duration-300 mx-auto">
                 {benefit.icon}
               </div>
               
