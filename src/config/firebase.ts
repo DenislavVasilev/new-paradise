@@ -11,29 +11,14 @@ import {
 } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-// Validate environment variables
-const requiredEnvVars = [
-  'VITE_FIREBASE_API_KEY',
-  'VITE_FIREBASE_AUTH_DOMAIN',
-  'VITE_FIREBASE_PROJECT_ID',
-  'VITE_FIREBASE_STORAGE_BUCKET',
-  'VITE_FIREBASE_MESSAGING_SENDER_ID',
-  'VITE_FIREBASE_APP_ID'
-] as const;
-
-for (const envVar of requiredEnvVars) {
-  if (!import.meta.env[envVar]) {
-    throw new Error(`Missing required environment variable: ${envVar}`);
-  }
-}
-
+// Firebase configuration - use environment variables if available, otherwise use production config
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBiRz8kObjTT-SDOfN--Df6KkeNUU-X_SI",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "paradise-fbb21.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "paradise-fbb21",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "paradise-fbb21.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "59784455455",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:59784455455:web:816eabb9f9931c64633c2a"
 };
 
 // Initialize Firebase app with error handling
