@@ -65,7 +65,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
 
   return (
     <section className="py-12 md:py-20 bg-gradient-to-br from-neutral-50 to-white" id="contact">
-      <div className="container-custom max-w-2xl mx-auto px-4">
+      <div className="w-full max-w-none mx-auto px-4 sm:px-6 md:max-w-4xl md:px-4">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
             Свържете се с нас
@@ -75,7 +75,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
           </p>
         </div>
         
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-neutral-100">
+        <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-10 border border-neutral-100">
         {submitStatus.type && (
           <div
             className={`mb-8 p-6 rounded-xl text-center border ${
@@ -100,7 +100,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
         )}
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             <div className="group">
               <label className="block text-sm font-semibold text-neutral-700 mb-3">
                 Вашето име *
@@ -144,7 +144,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
             </div>
           </div>
 
-          <div className="group">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            <div className="group">
             <label className="block text-sm font-semibold text-neutral-700 mb-3">
               Телефон за връзка
             </label>
@@ -164,8 +165,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
             </div>
           </div>
 
-          {apartmentNumber && (
-            <div className="group">
+            {apartmentNumber && (
+              <div className="group">
               <label className="block text-sm font-semibold text-neutral-700 mb-3">
                 Апартамент
               </label>
@@ -184,7 +185,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
                 />
               </div>
             </div>
-          )}
+            )}
+          </div>
 
           <div className="group">
             <label className="block text-sm font-semibold text-neutral-700 mb-3">
