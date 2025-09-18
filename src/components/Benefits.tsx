@@ -118,17 +118,6 @@ const Benefits = () => {
           ))}
         </div>
 
-        {/* Call to action */}
-        <div className="text-center mt-16">
-          <div className="inline-flex items-center space-x-4 bg-neutral-50 rounded-full px-8 py-4 border border-neutral-200">
-            <div className="flex -space-x-2">
-              <div className="w-8 h-8 rounded-full bg-primary border-2 border-white"></div>
-              <div className="w-8 h-8 rounded-full bg-secondary border-2 border-white"></div>
-              <div className="w-8 h-8 rounded-full bg-accent border-2 border-white"></div>
-            </div>
-            <span className="text-neutral-700 font-medium">Всички удобства включени в цената</span>
-          </div>
-        </div>
       </div>
     </section>
   );
