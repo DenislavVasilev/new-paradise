@@ -308,17 +308,19 @@ const ApartmentDetailsPage = () => {
                   </div>
                 )}
 
-                <div className="mb-8">
-                  <h2 className="text-xl font-semibold mb-4 text-gray-900">Характеристики</h2>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {apartment.features.map((feature, index) => (
-                      <li key={index} className="flex items-start text-neutral-600">
-                        <span className="w-2 h-2 bg-primary rounded-full mr-3 mt-2 flex-shrink-0"></span>
-                        <span className="leading-relaxed">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {apartment.features && apartment.features.length > 0 && (
+                  <div className="mb-8">
+                    <h2 className="text-xl font-semibold mb-4 text-gray-900">Характеристики</h2>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {apartment.features.map((feature, index) => (
+                        <li key={index} className="flex items-start text-neutral-600">
+                          <span className="w-2 h-2 bg-primary rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                          <span className="leading-relaxed">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 {apartment.price > 0 && (
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl">

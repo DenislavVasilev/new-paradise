@@ -211,8 +211,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, isModal = fa
                     onChange={handleChange}
                     placeholder="Разкажете ни повече за вашите изисквания..."
                     rows={4}
-                    className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl focus:outline-none focus:ring-0 focus:border-primary text-base resize-none transition-all duration-200 hover:border-neutral-300"
-                    className="block w-full pl-10 pr-3 py-3 border-2 border-neutral-200 rounded-lg bg-neutral-50 text-sm"
+                    className="block w-full pl-10 pr-3 py-3 border-2 border-neutral-200 rounded-lg focus:outline-none focus:ring-0 focus:border-primary text-sm resize-none transition-all duration-200 hover:border-neutral-300"
+                    required
                     disabled={isSubmitting}
                   ></textarea>
                 </div>
@@ -275,7 +275,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, isModal = fa
               )}
             </div>
             <p className="font-medium">{submitStatus.message}</p>
-                <label className="block text-xs font-semibold text-neutral-700 mb-1">
+          </div>
         )}
         
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -377,7 +377,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, isModal = fa
               </div>
               <textarea
                 name="message"
-                  <div className="absolute top-3 left-3 pointer-events-none">
+                value={formData.message}
                 onChange={handleChange}
                 placeholder="Разкажете ни повече за вашите изисквания..."
                 rows={6}
@@ -385,8 +385,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, isModal = fa
                 required
                 disabled={isSubmitting}
               ></textarea>
-                    rows={4}
-                    className="block w-full pl-10 pr-3 py-3 border-2 border-neutral-200 rounded-lg focus:outline-none focus:ring-0 focus:border-primary text-sm resize-none transition-all duration-200 hover:border-neutral-300"
+            </div>
+          </div>
 
           <button
             type="submit"
@@ -396,16 +396,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, isModal = fa
             {isSubmitting ? (
               <>
                 <Loader2 className="w-5 h-5 md:w-6 md:h-6 mr-3 animate-spin" />
-                className="w-full bg-gradient-to-r from-secondary to-secondary-dark text-white px-4 py-3 rounded-lg font-semibold text-sm hover:from-secondary-dark hover:to-secondary transform hover:scale-[1.02] transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg hover:shadow-xl"
+                Изпращане...
               </>
             ) : (
               <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <Send className="w-5 h-5 md:w-6 md:h-6 mr-3" />
                 Заяви консултация
               </>
             )}
           </button>
-                    <Send className="w-4 h-4 mr-2" />
+        </form>
         
         <div className="mt-8 pt-6 border-t border-neutral-100 text-center">
           <p className="text-sm text-neutral-500">
