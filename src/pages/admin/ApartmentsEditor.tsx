@@ -18,7 +18,6 @@ interface ApartmentFormData {
   status: 'available' | 'reserved' | 'sold';
   description: string;
   features: string[];
-  hasTerrace: boolean;
   exposure: string;
   internalNotes?: string;
 }
@@ -36,7 +35,6 @@ const initialFormData: ApartmentFormData = {
   status: 'available',
   description: '',
   features: [],
-  hasTerrace: false,
   exposure: 'south',
   internalNotes: ''
 };
@@ -133,7 +131,6 @@ const ApartmentsEditor = () => {
       status: apartment.status,
       description: apartment.description || '',
       features: apartment.features || [],
-      hasTerrace: apartment.hasTerrace || false,
       exposure: apartment.exposure || 'south',
       internalNotes: apartment.internalNotes || ''
     });
@@ -461,33 +458,6 @@ const ApartmentsEditor = () => {
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Тераса
-              </label>
-              <div className="flex items-center space-x-4">
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    value="true"
-                    checked={formData.hasTerrace === true}
-                    onChange={(e) => setFormData({ ...formData, hasTerrace: e.target.value === 'true' })}
-                    className="form-radio h-4 w-4 text-primary focus:ring-primary border-gray-300"
-                  />
-                  <span className="ml-2">Да</span>
-                </label>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    value="false"
-                    checked={formData.hasTerrace === false}
-                    onChange={(e) => setFormData({ ...formData, hasTerrace: e.target.value === 'true' })}
-                    className="form-radio h-4 w-4 text-primary focus:ring-primary border-gray-300"
-                  />
-                  <span className="ml-2">Не</span>
-                </label>
-              </div>
-            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -509,6 +479,55 @@ const ApartmentsEditor = () => {
               </select>
             </div>
           </div>
+
+          <div className="mt-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Описание
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => handleInputChange('description', e.target.value)}
+              rows={4}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Описание на апартамента..."
+            />
+          </div>
+
+          <div className="mt-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Вътрешни бележки
+            </label>
+            <textarea
+              value={formData.internalNotes || ''}
+              onChange={(e) => handleInputChange('internalNotes', e.target.value)}
+              rows={3}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Вътрешни бележки (не се показват на клиентите)..."
+            />
+          </div>
+
+          {editingId && (
+            <div className="mt-6">
+              <div className="flex items-center justify-between mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Снимки
+                </label>
+                <button
+                  onClick={() => setShowImageUpload(!showImageUpload)}
+                  className="flex items-center px-4 py-2 text-primary hover:bg-primary-50 rounded-lg transition-colors"
+                >
+                  <ImageIcon className="w-5 h-5 mr-2" />
+                  {showImageUpload ? 'Скрий качването' : 'Качи снимки'}
+                </button>
+              </div>
+
+              {showImageUpload && (
+                <div {...getRootProps()} className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-colors mb-6">
+                  <input {...getInputProps()} />
+                  <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600">
+                    {isDragActive
+                      ? 'Пуснете снимките тук...'
                       : 'Плъзнете снимки тук или кликнете, за да изберете'}
                   </p>
                   <p className="text-sm text-gray-500 mt-2">
