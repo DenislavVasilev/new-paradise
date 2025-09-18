@@ -10,7 +10,7 @@ const Location = () => {
   useEffect(() => {
     const fetchLocationImage = async () => {
       try {
-        const imageRef = ref(storage, 'media/1748256397199_situaciq.jpg');
+        const imageRef = ref(storage, '1748256397199_situaciq.jpg');
         const url = await getDownloadURL(imageRef);
         setLocationImageUrl(url);
       } catch (error) {

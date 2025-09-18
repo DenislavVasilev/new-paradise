@@ -17,8 +17,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const createAdminUser = async () => {
-  const email = 'admin@molino.bg'; // Change this to your desired admin email
-  const password = 'AdminPassword123!'; // Change this to a secure password
+  const email = 'denislav@reachub.co'; // Change this to your desired admin email
+  const password = 'da1da2da3'; // Change this to a secure password
 
   try {
     // Create user account
