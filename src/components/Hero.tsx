@@ -19,9 +19,6 @@ const Hero = () => {
           <h1 className="font-sans text-4xl md:text-6xl font-bold mb-6 leading-tight">
             Paradise Green Park Apartments
           </h1>
-          <h2 className="text-xl md:text-2xl font-light mb-2 text-secondary">
-            Вашият дом край морето
-          </h2>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
             Луксозни апартаменти за продажба с изглед към морето в престижния комплекс в Златни пясъци
           </p>
