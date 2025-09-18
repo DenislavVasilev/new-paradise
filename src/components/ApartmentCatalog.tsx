@@ -32,10 +32,6 @@ const ApartmentCatalog = () => {
     }
   };
 
-  const getEntranceLabel = (entrance: string) => {
-    return buildingConfig.getEntranceLabel(entrance);
-  };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
