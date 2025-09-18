@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, ChevronDown } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { collection, query, getDocs } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showNavigator, setShowNavigator] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -17,6 +20,20 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const checkForFloorPlans = async () => {
+      try {
+        const q = query(collection(db, 'floorPlans'));
+        const querySnapshot = await getDocs(q);
+        setShowNavigator(querySnapshot.size > 0);
+      } catch (error) {
+        console.error('Error checking floor plans:', error);
+        setShowNavigator(false);
+      }
+    };
+
+    checkForFloorPlans();
+  }, []);
   const isHomePage = location.pathname === '/';
 
   const handleScrollTo = (elementId: string) => {
@@ -71,41 +88,27 @@ const Header = () => {
 
           <div className="hidden md:flex items-center space-x-8">
             <Link
-              to="/navigator"
+              to="/apartments"
               className="text-white hover:text-secondary transition duration-300"
             >
-              Навигатор
+              Апартаменти
             </Link>
             
-            <div className="relative group">
-              <button className="flex items-center space-x-1 text-white group-hover:text-secondary transition-colors duration-300">
-                <span>Обекти</span>
-                <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
-              </button>
-              
-              <div className="absolute left-0 mt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <div className="py-2 bg-white rounded-lg shadow-xl">
-                  <Link
-                    to="/apartments"
-                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors duration-300"
-                  >
-                    Апартаменти
-                  </Link>
-                  <Link
-                    to="/parking"
-                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors duration-300"
-                  >
-                    Паркоместа
-                  </Link>
-                  <Link
-                    to="/gallery"
-                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors duration-300"
-                  >
-                    Галерия
-                  </Link>
-                </div>
-              </div>
-            </div>
+            <Link
+              to="/gallery"
+              className="text-white hover:text-secondary transition duration-300"
+            >
+              Галерия
+            </Link>
+            
+            {showNavigator && (
+              <Link
+                to="/navigator"
+                className="text-white hover:text-secondary transition duration-300"
+              >
+                Навигатор
+              </Link>
+            )}
 
             <button
               onClick={() => handleScrollTo('location')}
@@ -142,36 +145,30 @@ const Header = () => {
           <div className="md:hidden absolute top-full left-0 w-full bg-primary shadow-lg py-4">
             <div className="flex flex-col space-y-4 px-4">
               <Link
-                to="/navigator"
+                to="/apartments"
                 className="text-white hover:text-secondary transition duration-300"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Навигатор
+                Апартаменти
               </Link>
               
-              <div className="space-y-2 pl-4">
+              <Link
+                to="/gallery"
+                className="text-white hover:text-secondary transition duration-300"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Галерия
+              </Link>
+              
+              {showNavigator && (
                 <Link
-                  to="/apartments"
-                  className="block text-white hover:text-secondary transition duration-300"
+                  to="/navigator"
+                  className="text-white hover:text-secondary transition duration-300"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Апартаменти
+                  Навигатор
                 </Link>
-                <Link
-                  to="/parking"
-                  className="block text-white hover:text-secondary transition duration-300"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Паркоместа
-                </Link>
-                <Link
-                  to="/gallery"
-                  className="block text-white hover:text-secondary transition duration-300"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Галерия
-                </Link>
-              </div>
+              )}
 
               <button
                 onClick={() => handleScrollTo('location')}

@@ -22,20 +22,20 @@ const Footer = () => {
               <Link to="/" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Начало
               </Link>
-              <Link to="/navigator" className="block text-neutral-200 hover:text-secondary transition duration-300">
-                Етажен навигатор
-              </Link>
               <Link to="/apartments" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Апартаменти
-              </Link>
-              <Link to="/parking" className="block text-neutral-200 hover:text-secondary transition duration-300">
-                Паркоместа
               </Link>
               <Link to="/gallery" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Галерия
               </Link>
+              <Link to="/navigator" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                Навигатор
+              </Link>
               <a href="/#contact" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Контакти
+              </a>
+              <a href="/#location" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                Локация
               </a>
             </div>
           </div>
