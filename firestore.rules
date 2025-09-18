@@ -1,0 +1,137 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidString(value) {
+      return value is string && value.size() <= 2000;
+    }
+
+    function isValidNumber(value) {
+      return value is number && value >= 0;
+    }
+
+    function isValidStatus(value) {
+      return value in ['available', 'reserved', 'sold'];
+    }
+
+    function isValidTimestamp(value) {
+      return value is timestamp;
+    }
+
+    function isValidApartment() {
+      let data = request.resource.data;
+      
+      // Required fields validation
+      let hasRequiredFields = 
+        'number' in data &&
+        'entrance' in data &&
+        'floor' in data &&
+        'area' in data &&
+        'price' in data &&
+        'status' in data;
+
+      // Basic field validation
+      let validRequiredFields = 
+        isValidString(data.number) &&
+        isValidString(data.entrance) &&
+        isValidNumber(data.floor) &&
+        isValidNumber(data.area) &&
+        isValidNumber(data.price) &&
+        isValidStatus(data.status);
+
+      // Optional fields validation
+      let validOptionalFields =
+        (!('description' in data) || isValidString(data.description)) &&
+        (!('features' in data) || (data.features is list && data.features.size() <= 50)) &&
+        (!('secondaryFloor' in data) || isValidNumber(data.secondaryFloor));
+
+      // Timestamp validation - more permissive
+      let validTimestamps = 
+        (!('createdAt' in data) || isValidTimestamp(data.createdAt)) &&
+        (!('updatedAt' in data) || isValidTimestamp(data.updatedAt));
+
+      return hasRequiredFields && validRequiredFields && validOptionalFields && validTimestamps;
+    }
+
+    function isValidParkingSpot() {
+      let data = request.resource.data;
+      
+      return 
+        'number' in data && isValidString(data.number) &&
+        'floor' in data && isValidNumber(data.floor) &&
+        'type' in data && data.type in ['covered', 'uncovered'] &&
+        'size' in data && isValidString(data.size) &&
+        'price' in data && isValidNumber(data.price) &&
+        'status' in data && isValidStatus(data.status);
+    }
+
+    function isValidContactSubmission() {
+      let data = request.resource.data;
+      return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.email is string && data.email.matches('^[^@]+@[^@]+\\.[^@]+$') &&
+             (!('phone' in data) || (data.phone is string && data.phone.size() <= 20)) &&
+             data.message is string && data.message.size() > 0 && data.message.size() <= 1000 &&
+             data.submittedAt is timestamp &&
+             data.isRead is bool;
+    }
+
+    // Allow public read access to all collections
+    match /{document=**} {
+      allow read: if true;
+    }
+    
+    // Apartments collection
+    match /apartments/{apartment} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Contacts collection
+    match /contacts/{contact} {
+      allow read: if isAuthenticated();
+      allow create: if isValidContactSubmission();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // Floor plans collection
+    match /floorPlans/{plan} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    // Media collection
+    match /media/{item} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    // Content collection
+    match /content/{document} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Parking spots collection
+    match /parkingSpots/{spot} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Stores collection
+    match /stores/{store} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+  }
+}

@@ -1,0 +1,73 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isValidDocument() {
+      return request.resource.contentType.matches('application/pdf');
+    }
+
+    function isValidSize() {
+      return request.resource.size <= 10 * 1024 * 1024; // 10MB limit
+    }
+
+    // Public media files
+    match /media/{fileName} {
+      allow read: if true;
+      allow write: if isAuthenticated() &&
+                     (isValidImage() || isValidDocument()) &&
+                     isValidSize();
+      allow delete: if isAuthenticated();
+    }
+
+    // Floor plan images
+    match /floorPlans/{fileName} {
+      allow read: if true;
+      allow write: if isAuthenticated() &&
+                     isValidImage() &&
+                     isValidSize();
+      allow delete: if isAuthenticated();
+    }
+
+    // Apartment images and brochures
+    match /apartments/{apartmentId}/{fileName} {
+      allow read: if true;
+      allow write: if isAuthenticated() &&
+                     (isValidImage() || isValidDocument()) &&
+                     isValidSize();
+      allow delete: if isAuthenticated();
+    }
+
+    // Store images
+    match /stores/{storeId}/{fileName} {
+      allow read: if true;
+      allow write: if isAuthenticated() &&
+                     isValidImage() &&
+                     isValidSize();
+      allow delete: if isAuthenticated();
+    }
+
+    // Parking spot images
+    match /parking/{fileName} {
+      allow read: if true;
+      allow write: if isAuthenticated() &&
+                     isValidImage() &&
+                     isValidSize();
+      allow delete: if isAuthenticated();
+    }
+
+    // Catch-all rule
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if false; // Deny write access to unspecified paths
+    }
+  }
+}

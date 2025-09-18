@@ -1,0 +1,72 @@
+import React from 'react';
+import { Phone, Mail, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const Footer = () => {
+  return (
+    <footer className="bg-primary text-white py-16">
+      <div className="container-custom">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <h3 className="text-2xl font-serif mb-6">Сграда Molino</h3>
+            <p className="text-neutral-200 mb-6">
+              Модерна сграда с отлична локация във Варна.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold mb-6">Връзки в сайта</h3>
+            <div className="space-y-3">
+              <Link to="/" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                Начало
+              </Link>
+              <Link to="/navigator" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                Етажен навигатор
+              </Link>
+              <Link to="/apartments" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                Апартаменти
+              </Link>
+              <Link to="/parking" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                Паркоместа
+              </Link>
+              <a href="/#location" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                Локация
+              </a>
+              <a href="/#contact" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                Контакти
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold mb-6">Контакти</h3>
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <Phone className="h-5 w-5 mr-3" />
+                <a href="tel:+359889660000" className="hover:text-secondary transition duration-300">
+                  0889 66 00 00
+                </a>
+              </div>
+              <div className="flex items-center">
+                <Mail className="h-5 w-5 mr-3" />
+                <a href="mailto:office@imoti.bg" className="hover:text-secondary transition duration-300">
+                  office@imoti.bg
+                </a>
+              </div>
+              <div className="flex items-start">
+                <MapPin className="h-5 w-5 mr-3 mt-1" />
+                <span>бул. „Княгиня Мария Луиза" 42<br />9000, Варна, България</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12 pt-8 border-t border-white/10 text-center text-sm text-neutral-300">
+          <p>© {new Date().getFullYear()} Сграда Molino. Всички права запазени.</p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
