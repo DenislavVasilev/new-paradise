@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, Trash2, Image as ImageIcon, File, X, Loader2 } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
-import { storage, db } from '../../lib/firebase';
+import { storage, db, auth } from '../../lib/firebase';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { collection, addDoc, query, getDocs, deleteDoc, doc, orderBy } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
 interface MediaFile {
   id: string;
@@ -21,6 +22,18 @@ const MediaLibrary = () => {
   const [view, setView] = useState<'grid' | 'list'>('grid');
   const [isUploading, setIsUploading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        fetchMediaFiles();
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     fetchMediaFiles();
@@ -44,8 +57,16 @@ const MediaLibrary = () => {
   };
 
   const onDrop = async (acceptedFiles: File[]) => {
+    if (!user) {
+      alert('Моля, влезте в системата за да качите файлове');
+      return;
+    }
+
     setIsUploading(true);
     try {
+      // Wait for auth token to be ready
+      await auth.currentUser?.getIdToken(true);
+      
       for (const file of acceptedFiles) {
         const timestamp = Date.now();
         const storagePath = `media/${timestamp}_${file.name}`;
@@ -72,7 +93,11 @@ const MediaLibrary = () => {
       await fetchMediaFiles();
     } catch (error) {
       console.error('Error uploading files:', error);
-      alert('Грешка при качване на файловете');
+      if (error.code === 'storage/unauthorized') {
+        alert('Нямате права за качване на файлове. Моля, влезте отново в системата.');
+      } else {
+        alert('Грешка при качване на файловете: ' + error.message);
+      }
     } finally {
       setIsUploading(false);
     }
