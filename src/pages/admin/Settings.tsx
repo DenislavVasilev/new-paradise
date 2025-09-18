@@ -3,13 +3,13 @@ import { Save } from 'lucide-react';
 
 const Settings = () => {
   const [settings, setSettings] = useState({
-    companyName: 'Сграда Молино',
-    email: 'office@vyatarnamelnitsa.bg',
+    companyName: 'Paradise Green Park',
+    email: 'office@paradise-greenpark.bg',
     phone: '0889 66 00 00',
-    address: 'бул. „Княгиня Мария Луиза" 42, 9000 Варна',
+    address: 'Златни пясъци, 9007 Варна, България',
     socialMedia: {
-      facebook: 'https://facebook.com/vyatarnamelnitsa',
-      instagram: 'https://instagram.com/vyatarnamelnitsa'
+      facebook: 'https://facebook.com/paradise-greenpark',
+      instagram: 'https://instagram.com/paradise-greenpark'
     }
   });
 

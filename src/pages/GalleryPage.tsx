@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight, Filter } from 'lucide-react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 interface GalleryImage {
   id: string;
@@ -7,72 +9,55 @@ interface GalleryImage {
   title: string;
   category: string;
   alt: string;
+  size?: number;
+  uploadedAt?: Date;
 }
 
 const GalleryPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Sample gallery images - replace with actual Firebase data
-  const galleryImages: GalleryImage[] = [
-    {
-      id: '1',
-      url: 'https://firebasestorage.googleapis.com/v0/b/paradise-fbb21.firebasestorage.app/o/media%2F1758179336080_DSC_0688.JPG?alt=media&token=81332077-bde8-432c-9b95-daae219664ac',
-      title: 'Изглед към морето',
-      category: 'sea-view',
-      alt: 'Панорамна гледка към морето от Paradise Green Park'
-    },
-    {
-      id: '2',
-      url: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
-      title: 'Луксозен апартамент',
-      category: 'apartments',
-      alt: 'Интериор на луксозен апартамент'
-    },
-    {
-      id: '3',
-      url: 'https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&w=800&q=80',
-      title: 'Басейн',
-      category: 'pool',
-      alt: 'Открит басейн в комплекса'
-    },
-    {
-      id: '4',
-      url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
-      title: 'Всекидневна',
-      category: 'apartments',
-      alt: 'Модерна всекидневна с изглед към морето'
-    },
-    {
-      id: '5',
-      url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80',
-      title: 'Спалня',
-      category: 'apartments',
-      alt: 'Елегантна спалня с морска гледка'
-    },
-    {
-      id: '6',
-      url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
-      title: 'Лоби',
-      category: 'common-areas',
-      alt: 'Луксозно лоби на комплекса'
-    },
-    {
-      id: '7',
-      url: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80',
-      title: 'Ресторант',
-      category: 'common-areas',
-      alt: 'Ресторант в комплекса'
-    },
-    {
-      id: '8',
-      url: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=800&q=80',
-      title: 'Плаж',
-      category: 'surroundings',
-      alt: 'Плажът в Златни пясъци'
+  useEffect(() => {
+    fetchGalleryImages();
+  }, []);
+
+  const fetchGalleryImages = async () => {
+    try {
+      const q = query(collection(db, 'media'), where('type', '==', 'image'));
+      const querySnapshot = await getDocs(q);
+      const images = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          url: data.url,
+          title: data.name.replace(/\.[^/.]+$/, ""), // Remove file extension
+          category: data.category || 'apartments',
+          alt: data.name,
+          size: data.size,
+          uploadedAt: data.uploadedAt?.toDate()
+        };
+      }) as GalleryImage[];
+      
+      setGalleryImages(images);
+    } catch (error) {
+      console.error('Error fetching gallery images:', error);
+      // Fallback to sample images if Firebase fails
+      setGalleryImages([
+        {
+          id: '1',
+          url: 'https://firebasestorage.googleapis.com/v0/b/paradise-fbb21.firebasestorage.app/o/media%2F1758179336080_DSC_0688.JPG?alt=media&token=81332077-bde8-432c-9b95-daae219664ac',
+          title: 'Изглед към морето',
+          category: 'sea-view',
+          alt: 'Панорамна гледка към морето от Paradise Green Park'
+        }
+      ]);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const categories = [
     { id: 'all', name: 'Всички', count: galleryImages.length },
@@ -124,6 +109,18 @@ const GalleryPage = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedImage, currentIndex]);
+
+  if (loading) {
+    return (
+      <div className="pt-24 pb-16 bg-gradient-to-b from-white to-neutral-50">
+        <div className="container-custom">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

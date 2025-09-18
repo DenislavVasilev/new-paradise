@@ -64,7 +64,7 @@ const AdminLayout = () => {
             <div className="flex items-center space-x-2">
               <Building2 className="w-8 h-8 text-primary" />
               <span className="text-xl font-bold text-primary">
-                Вятърна Мелница
+                Paradise Green Park
               </span>
             </div>
             <button

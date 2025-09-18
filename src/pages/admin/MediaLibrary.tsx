@@ -11,6 +11,7 @@ interface MediaFile {
   name: string;
   url: string;
   type: 'image' | 'document';
+  category?: string;
   size: number;
   uploadedAt: Date;
   storagePath: string;
@@ -23,6 +24,15 @@ const MediaLibrary = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('apartments');
+
+  const galleryCategories = [
+    { id: 'apartments', name: 'Апартаменти' },
+    { id: 'common-areas', name: 'Общи части' },
+    { id: 'pool', name: 'Басейн' },
+    { id: 'sea-view', name: 'Изглед към морето' },
+    { id: 'surroundings', name: 'Околност' }
+  ];
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -86,6 +96,7 @@ const MediaLibrary = () => {
           name: file.name,
           url: downloadUrl,
           type: file.type.startsWith('image/') ? 'image' : 'document',
+          category: selectedCategory,
           size: file.size,
           uploadedAt: new Date(),
           storagePath: storagePath
@@ -181,6 +192,20 @@ const MediaLibrary = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Медийна библиотека</h1>
         <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium text-gray-700">Категория:</label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary focus:border-primary"
+            >
+              {galleryCategories.map(category => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
           {selectedFiles.length > 0 && (
             <button
               onClick={deleteSelected}
@@ -270,7 +295,14 @@ const MediaLibrary = () => {
                 <p className="text-sm font-medium truncate" title={file.name}>
                   {file.name}
                 </p>
-                <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+                <div className="flex justify-between items-center">
+                  <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+                  {file.category && (
+                    <span className="text-xs bg-primary text-white px-2 py-1 rounded">
+                      {galleryCategories.find(cat => cat.id === file.category)?.name || file.category}
+                    </span>
+                  )}
+                </div>
               </div>
               <button
                 onClick={() => toggleFileSelection(file.id)}
@@ -330,6 +362,11 @@ const MediaLibrary = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="text-sm text-gray-500">
                       {file.type === 'image' ? 'Изображение' : 'Документ'}
+                      {file.category && (
+                        <span className="ml-2 text-xs bg-primary text-white px-2 py-1 rounded">
+                          {galleryCategories.find(cat => cat.id === file.category)?.name || file.category}
+                        </span>
+                      )}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
