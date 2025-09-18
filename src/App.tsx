@@ -12,7 +12,7 @@ import ApartmentCatalogPage from "./pages/ApartmentCatalogPage";
 import ApartmentDetailsPage from "./pages/ApartmentDetailsPage";
 import ParkingPage from "./pages/ParkingPage";
 import ParkingDetailsPage from "./pages/ParkingDetailsPage";
-import StoresPage from "./pages/StoresPage";
+import GalleryPage from "./pages/GalleryPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 // Admin Pages
@@ -81,7 +81,7 @@ function App() {
           <Route path="apartments/:id" element={<ApartmentDetailsPage />} />
           <Route path="parking" element={<ParkingPage />} />
           <Route path="parking/:id" element={<ParkingDetailsPage />} />
-          <Route path="stores" element={<StoresPage />} />
+          <Route path="gallery" element={<GalleryPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

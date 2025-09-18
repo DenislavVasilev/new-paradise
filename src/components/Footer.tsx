@@ -8,9 +8,11 @@ const Footer = () => {
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
-            <h3 className="text-2xl font-serif mb-6">Сграда Molino</h3>
+            <h3 className="text-2xl font-sans mb-6">
+              <span className="text-secondary">Paradise</span> Green Park
+            </h3>
             <p className="text-neutral-200 mb-6">
-              Модерна сграда с отлична локация във Варна.
+              Луксозен апартаментен комплекс в сърцето на Златни пясъци с изглед към морето.
             </p>
           </div>
 
@@ -29,8 +31,8 @@ const Footer = () => {
               <Link to="/parking" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Паркоместа
               </Link>
-              <a href="/#location" className="block text-neutral-200 hover:text-secondary transition duration-300">
-                Локация
+              <Link to="/gallery" className="block text-neutral-200 hover:text-secondary transition duration-300">
+                Галерия
               </a>
               <a href="/#contact" className="block text-neutral-200 hover:text-secondary transition duration-300">
                 Контакти
@@ -55,14 +57,14 @@ const Footer = () => {
               </div>
               <div className="flex items-start">
                 <MapPin className="h-5 w-5 mr-3 mt-1" />
-                <span>бул. „Княгиня Мария Луиза" 42<br />9000, Варна, България</span>
+                <span>Златни пясъци<br />9007, Варна, България</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/10 text-center text-sm text-neutral-300">
-          <p>© {new Date().getFullYear()} Сграда Molino. Всички права запазени.</p>
+          <p>© {new Date().getFullYear()} Paradise Green Park. Всички права запазени.</p>
         </div>
       </div>
     </footer>

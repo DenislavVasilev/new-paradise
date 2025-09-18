@@ -53,7 +53,7 @@ const ApartmentCatalog = () => {
   return (
     <section className="py-12 bg-white">
       <div className="container-custom">
-        <h1 className="text-4xl font-bold text-center mb-12">"Сграда Molino"</h1>
+        <h1 className="text-4xl font-bold text-center mb-12">Paradise Green Park</h1>
         <h2 className="text-2xl text-center mb-8">Апартаменти</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">

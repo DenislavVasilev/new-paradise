@@ -5,19 +5,19 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#2C3E50', // Rich navy blue
-          light: '#34495E',
-          dark: '#1A252F'
+          DEFAULT: '#2d5a3d', // Forest green
+          light: '#4a7c59',
+          dark: '#1a3d26'
         },
         secondary: {
-          DEFAULT: '#2ECC71', // Green
-          light: '#27AE60',
-          dark: '#27AE60'
+          DEFAULT: '#d4a574', // Gold
+          light: '#e6c299',
+          dark: '#b8860b'
         },
         accent: {
-          DEFAULT: '#16A085', // Teal
-          light: '#1ABC9C',
-          dark: '#0E6655'
+          DEFAULT: '#4a7c59', // Light green
+          light: '#6b9c7a',
+          dark: '#2d5a3d'
         },
         neutral: {
           50: '#F9FAFB',
@@ -33,8 +33,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Playfair Display', 'Georgia', 'serif']
+        sans: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['Poppins', 'Georgia', 'serif']
       },
       spacing: {
         '128': '32rem',

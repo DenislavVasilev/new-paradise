@@ -10,32 +10,32 @@ const Benefits = () => {
 
   const benefits = [
     {
-      icon: <Shield className="w-12 h-12 text-accent" />,
+      icon: <Shield className="w-12 h-12 text-primary" />,
       title: 'Сигурност',
-      description: 'Модерни общи части и контрол на достъпа'
+      description: '24/7 охрана и видеонаблюдение в целия комплекс'
     },
     {
-      icon: <MapPin className="w-12 h-12 text-accent" />,
-      title: 'Комуникативност',
-      description: 'Близост до градски транспорт и удобства'
+      icon: <MapPin className="w-12 h-12 text-primary" />,
+      title: 'Локация',
+      description: 'На 50 метра от плажа в престижния курорт Златни пясъци'
     },
     {
-      icon: <Zap className="w-12 h-12 text-accent" />,
-      title: 'Енергийна ефективност',
-      description: 'Клас А енергийна ефективност и умни системи'
+      icon: <Zap className="w-12 h-12 text-primary" />,
+      title: 'Удобства',
+      description: 'Басейн, фитнес, СПА център и ресторант в комплекса'
     },
     {
-      icon: <Home className="w-12 h-12 text-accent" />,
+      icon: <Home className="w-12 h-12 text-primary" />,
       title: 'Качество',
-      description: 'Първокласни материали и изпълнение'
+      description: 'Луксозни довършителни работи и модерен дизайн'
     }
   ];
 
   return (
-    <section className="py-20 bg-white" id="benefits">
+    <section className="py-20 bg-gradient-to-b from-white to-neutral-50" id="benefits">
       <div className="container-custom">
         <h2 className="section-title text-center">
-          Защо да изберете сграда Molino?
+          Защо да изберете Paradise Green Park?
         </h2>
         
         <div
@@ -50,7 +50,7 @@ const Benefits = () => {
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent bg-opacity-10 mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary bg-opacity-10 mb-4">
                 {benefit.icon}
               </div>
               <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>

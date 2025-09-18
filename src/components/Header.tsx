@@ -61,15 +61,12 @@ const Header = () => {
           <a
             href="/"
             onClick={handleHomeClick}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-3"
           >
-            <img 
-              src="/images/91409009-7652-4b65-9973-d8562a0f1540.png"
-              alt="Molino"
-              className="h-12 w-auto"
-              loading="eager"
-              decoding="async"
-            />
+            <div className="text-2xl font-bold text-white">
+              <span className="text-secondary">Paradise</span>
+              <span className="ml-1">Green Park</span>
+            </div>
           </a>
 
           <div className="hidden md:flex items-center space-x-8">
@@ -90,21 +87,21 @@ const Header = () => {
                 <div className="py-2 bg-white rounded-lg shadow-xl">
                   <Link
                     to="/apartments"
-                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-secondary hover:text-white transition-colors duration-300"
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors duration-300"
                   >
                     Апартаменти
                   </Link>
                   <Link
                     to="/parking"
-                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-secondary hover:text-white transition-colors duration-300"
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors duration-300"
                   >
                     Паркоместа
                   </Link>
                   <Link
-                    to="/stores"
-                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-secondary hover:text-white transition-colors duration-300"
+                    to="/gallery"
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors duration-300"
                   >
-                    Магазини
+                    Галерия
                   </Link>
                 </div>
               </div>
@@ -126,7 +123,7 @@ const Header = () => {
             
             <a
               href="tel:0889660000"
-              className="flex items-center space-x-2 bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent-dark transition duration-300"
+              className="flex items-center space-x-2 bg-secondary text-white px-4 py-2 rounded-lg hover:bg-secondary-dark transition duration-300"
             >
               <Phone size={18} />
               <span>0889 66 00 00</span>
@@ -168,11 +165,11 @@ const Header = () => {
                   Паркоместа
                 </Link>
                 <Link
-                  to="/stores"
+                  to="/gallery"
                   className="block text-white hover:text-secondary transition duration-300"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Магазини
+                  Галерия
                 </Link>
               </div>
 
@@ -192,7 +189,7 @@ const Header = () => {
               
               <a
                 href="tel:0889660000"
-                className="flex items-center space-x-2 bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent-dark transition duration-300"
+                className="flex items-center space-x-2 bg-secondary text-white px-4 py-2 rounded-lg hover:bg-secondary-dark transition duration-300"
               >
                 <Phone size={18} />
                 <span>0889 66 00 00</span>

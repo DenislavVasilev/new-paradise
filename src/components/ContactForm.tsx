@@ -43,7 +43,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
 
       setSubmitStatus({
         type: 'success',
-        message: 'Благодарим ви! Ще се свържем с вас скоро.'
+        message: 'Благодарим ви за интереса! Ще се свържем с вас в най-скоро време.'
       });
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -68,10 +68,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
       <div className="container-custom max-w-lg mx-auto px-4">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-            Свържете се с нас
+            Заявете безплатна консултация
           </h2>
           <p className="text-gray-600">
-            Имате въпроси? Ще се радваме да помогнем.
+            Нашите експерти ще ви помогнат да изберете перфектния апартамент за вас.
           </p>
         </div>
         
@@ -179,7 +179,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
                 Изпращане...
               </>
             ) : (
-              'Изпрати съобщение'
+              'Заяви консултация'
             )}
           </button>
         </form>
