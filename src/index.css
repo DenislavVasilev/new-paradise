@@ -49,3 +49,15 @@
     transform: translateY(0);
   }
 }
+
+/* Optimize image loading */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Preload critical resources */
+.hero-image {
+  content-visibility: auto;
+  contain-intrinsic-size: 1920px 1080px;
+}
