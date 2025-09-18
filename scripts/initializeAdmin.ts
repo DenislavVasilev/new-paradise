@@ -3,19 +3,19 @@ import { getFirestore } from 'firebase/firestore';
 import { doc, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: process.env.VITE_FIREBASE_API_KEY,
-  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.VITE_FIREBASE_APP_ID
+  apiKey: "AIzaSyBiRz8kObjTT-SDOfN--Df6KkeNUU-X_SI",
+  authDomain: "paradise-fbb21.firebaseapp.com",
+  projectId: "paradise-fbb21",
+  storageBucket: "paradise-fbb21.firebasestorage.app",
+  messagingSenderId: "59784455455",
+  appId: "1:59784455455:web:816eabb9f9931c64633c2a"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const userId = process.env.ADMIN_USER_ID; // Set this in your environment
+const userId = 'YOUR_USER_ID_HERE'; // Replace with actual user ID after creating admin user
 
 const makeUserAdmin = async () => {
   if (!userId) {

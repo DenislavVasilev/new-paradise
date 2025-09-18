@@ -3,19 +3,19 @@ import { getFirestore } from 'firebase/firestore';
 import { doc, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDAVTLJ8CLeiox7xoK2y5ZdXE2y5VIoKY8",
-  authDomain: "vqtarna-melnica.firebaseapp.com",
-  projectId: "vqtarna-melnica",
-  storageBucket: "vqtarna-melnica.firebasestorage.app",
-  messagingSenderId: "791540456402",
-  appId: "1:791540456402:web:4bf6110752823417ac860b"
+  apiKey: "AIzaSyBiRz8kObjTT-SDOfN--Df6KkeNUU-X_SI",
+  authDomain: "paradise-fbb21.firebaseapp.com",
+  projectId: "paradise-fbb21",
+  storageBucket: "paradise-fbb21.firebasestorage.app",
+  messagingSenderId: "59784455455",
+  appId: "1:59784455455:web:816eabb9f9931c64633c2a"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const userId = 'jHmeuM5Q5pUXOG80JPY5QWC2oPh1';
+const userId = 'YOUR_USER_ID_HERE'; // Replace with actual user ID after creating admin user
 
 const makeUserAdmin = async () => {
   try {
