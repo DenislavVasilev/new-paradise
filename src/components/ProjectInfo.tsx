@@ -94,29 +94,6 @@ const ProjectInfo = () => {
                 alt="Paradise Green Park изглед"
                 className="w-full h-[600px] object-cover"
               />
-              {/* Overlay with stats */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                <div className="absolute bottom-8 left-8 right-8">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-white mb-1">85</div>
-                      <div className="text-sm text-neutral-200">Апартамента</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-white mb-1">250</div>
-                      <div className="text-sm text-neutral-200">кв.м басейн</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-white mb-1">50</div>
-                      <div className="text-sm text-neutral-200">м до плажа</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-white mb-1">24/7</div>
-                      <div className="text-sm text-neutral-200">охрана</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           
