@@ -68,7 +68,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber }) => {
       <div className="container-custom max-w-2xl mx-auto px-4">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-            Заявете безплатна консултация
+            Свържете се с нас
           </h2>
           <p className="text-lg text-neutral-600 max-w-xl mx-auto">
             Нашите експерти ще ви помогнат да изберете перфектния апартамент за вас.
