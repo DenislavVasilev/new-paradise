@@ -607,64 +607,193 @@ const HomepageEditor = () => {
 
       {/* Project Info Tab */}
       {activeTab === 'projectInfo' && (
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-6">Информация за проекта</h2>
-          
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Заглавие
-              </label>
-              <input
-                type="text"
-                value={projectInfoForm.title}
-                onChange={(e) => setProjectInfoForm({ ...projectInfoForm, title: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-              />
+        <div className="space-y-6">
+          {/* Basic Project Info */}
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-xl font-semibold mb-6">Основна информация</h2>
+            
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Заглавие
+                </label>
+                <input
+                  type="text"
+                  value={projectInfoForm.title}
+                  onChange={(e) => setProjectInfoForm({ ...projectInfoForm, title: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Подзаглавие
+                </label>
+                <input
+                  type="text"
+                  value={projectInfoForm.subtitle}
+                  onChange={(e) => setProjectInfoForm({ ...projectInfoForm, subtitle: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Описание
+                </label>
+                <textarea
+                  value={projectInfoForm.description}
+                  onChange={(e) => setProjectInfoForm({ ...projectInfoForm, description: e.target.value })}
+                  rows={4}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  onClick={handleSaveProjectInfo}
+                  disabled={isSaving}
+                  className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center disabled:opacity-50"
+                >
+                  {isSaving ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                      Запазване...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-5 h-5 mr-2" />
+                      Запази
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Add new feature */}
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-xl font-semibold mb-6">Добави нова характеристика</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Икона
+                </label>
+                <select
+                  value={featureForm.icon}
+                  onChange={(e) => setFeatureForm({ ...featureForm, icon: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                >
+                  {availableIcons.map(icon => (
+                    <option key={icon} value={icon}>{icon}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Цвят на иконата
+                </label>
+                <select
+                  value={featureForm.iconColor}
+                  onChange={(e) => setFeatureForm({ ...featureForm, iconColor: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                >
+                  {availableColors.map(color => (
+                    <option key={color.value} value={color.value}>
+                      {color.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Заглавие
+                </label>
+                <input
+                  type="text"
+                  value={featureForm.title}
+                  onChange={(e) => setFeatureForm({ ...featureForm, title: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Описание
+                </label>
+                <input
+                  type="text"
+                  value={featureForm.description}
+                  onChange={(e) => setFeatureForm({ ...featureForm, description: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Подзаглавие
-              </label>
-              <input
-                type="text"
-                value={projectInfoForm.subtitle}
-                onChange={(e) => setProjectInfoForm({ ...projectInfoForm, subtitle: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-              />
-            </div>
+            <button
+              onClick={handleAddFeature}
+              disabled={isSaving}
+              className="flex items-center px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-colors disabled:opacity-50"
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Добави характеристика
+            </button>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Описание
-              </label>
-              <textarea
-                value={projectInfoForm.description}
-                onChange={(e) => setProjectInfoForm({ ...projectInfoForm, description: e.target.value })}
-                rows={4}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-              />
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                onClick={handleSaveProjectInfo}
-                disabled={isSaving}
-                className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center disabled:opacity-50"
-              >
-                {isSaving ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                    Запазване...
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-5 h-5 mr-2" />
-                    Запази
-                  </>
-                )}
-              </button>
+          {/* Existing features */}
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-xl font-semibold mb-6">Съществуващи характеристики</h2>
+            
+            <div className="space-y-4">
+              {content.projectInfo.features
+                ?.filter(Boolean)
+                .sort((a, b) => a.order - b.order)
+                .map((feature) => (
+                <div
+                  key={feature.id}
+                  draggable
+                  onDragStart={(e) => handleFeatureDragStart(e, feature.id)}
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleFeatureDrop(e, feature.id)}
+                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 cursor-move"
+                >
+                  <div className="flex items-center space-x-4">
+                    <GripVertical className="w-5 h-5 text-gray-400" />
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center`}>
+                        <span className={`text-lg ${feature.iconColor}`}>
+                          {React.createElement((LucideIcons as any)[feature.icon] || LucideIcons.Building2, { className: "w-5 h-5" })}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="font-medium">{feature.title}</div>
+                        <div className="text-sm text-gray-500">{feature.description}</div>
+                        <div className="text-xs text-gray-400">
+                          Икона: {feature.icon} • Цвят: {availableColors.find(c => c.value === feature.iconColor)?.label}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => setEditingFeature(feature.id)}
+                      className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                    >
+                      <Pencil className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteFeature(feature.id)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
