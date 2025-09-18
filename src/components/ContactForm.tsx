@@ -192,7 +192,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ apartmentNumber, apartmentEnt
                       onChange={handleChange}
                       placeholder="Апартамент"
                       className="block w-full pl-12 pr-4 py-4 border-2 border-neutral-200 rounded-xl bg-neutral-50 text-base"
-                      readOnly
                     />
                   </div>
                 </div>
