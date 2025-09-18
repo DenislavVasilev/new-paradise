@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Home, Square, Euro, MapPin, Building2, Loader2, X, ChevronLeft, ChevronRight, Compass, Printer, ImageIcon } from 'lucide-react';
+import { ArrowLeft, Home, Square, Euro, MapPin, Building2, Loader2, X, ChevronLeft, ChevronRight, Compass, Printer, ImageIcon, Phone } from 'lucide-react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import ContactForm from '../components/ContactForm';
