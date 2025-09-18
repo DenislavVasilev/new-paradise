@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Home, Save, Plus, Trash2, GripVertical, Loader2, Upload, Image as ImageIcon, Palette } from 'lucide-react';
+import { Home, Save, Plus, Trash2, GripVertical, Loader2, Upload, Image as ImageIcon, Palette, Pencil } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { useHomepageContent, BenefitItem, ProjectFeature } from '../../lib/hooks/useHomepageContent';
 import { useDropzone } from 'react-dropzone';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
