@@ -163,9 +163,21 @@ export const useHomepageContent = () => {
       
       if (docSnap.exists()) {
         const data = docSnap.data();
+        // Ensure all required properties exist with fallbacks
+        const safeData = {
+          ...data,
+          hero: data.hero || defaultContent.hero,
+          benefits: Array.isArray(data.benefits) ? data.benefits : defaultContent.benefits,
+          projectInfo: {
+            ...defaultContent.projectInfo,
+            ...data.projectInfo,
+            features: Array.isArray(data.projectInfo?.features) ? data.projectInfo.features : defaultContent.projectInfo.features
+          }
+        };
+        
         setContent({
           id: docSnap.id,
-          ...data,
+          ...safeData,
           updatedAt: data.updatedAt?.toDate()
         } as HomepageContent);
       } else {

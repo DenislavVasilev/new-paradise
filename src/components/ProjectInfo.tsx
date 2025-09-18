@@ -91,6 +91,7 @@ const ProjectInfo = () => {
         {/* Features grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {content.projectInfo.features
+            ?.filter(Boolean)
             .sort((a, b) => a.order - b.order)
             .map((feature, index) => (
             <div
