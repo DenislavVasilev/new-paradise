@@ -509,33 +509,6 @@ const ApartmentsEditor = () => {
               </select>
             </div>
           </div>
-
-          <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Описание
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => handleInputChange('description', e.target.value)}
-              rows={4}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-inter text-base text-neutral-800 bg-white"
-              placeholder="Въведете описание на апартамента..."
-            />
-          </div>
-
-          <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Вътрешни бележки
-            </label>
-            <textarea
-              value={formData.internalNotes || ''}
-              onChange={(e) => handleInputChange('internalNotes', e.target.value)}
-              rows={4}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-inter text-base text-neutral-800 bg-white"
-              placeholder="Вътрешни бележки, видими само в административния панел..."
-            />
-          </div>
-
           {editingId && (
             <div className="mt-6">
               <div className="flex items-center justify-between mb-4">

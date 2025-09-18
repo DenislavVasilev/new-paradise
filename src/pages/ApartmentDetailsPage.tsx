@@ -292,10 +292,6 @@ const ApartmentDetailsPage = () => {
                 <div className="mb-8">
                   <h2 className="text-xl font-semibold mb-4 font-sans">Характеристики</h2>
                   <ul className="grid grid-cols-2 gap-3">
-                    <li className="flex items-center text-neutral-600">
-                      <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                      Тераса: {apartment.hasTerrace ? 'Да' : 'Не'}
-                    </li>
                     {apartment.features.map((feature, index) => (
                       <li key={index} className="flex items-center text-neutral-600">
                         <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
