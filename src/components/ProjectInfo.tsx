@@ -58,6 +58,10 @@ const ProjectInfo = () => {
   const goToNext = () => {
     setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
   };
+
+  const goToSlide = (index: number) => {
+    setCurrentImageIndex(index);
+  };
   const features = [
     {
       icon: <Building2 className="w-8 h-8 text-primary" />,
@@ -162,7 +166,7 @@ const ProjectInfo = () => {
                       {/* Navigation arrows */}
                       <button
                         onClick={goToPrevious}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300"
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
                         aria-label="Предишна снимка"
                       >
                         <ChevronLeft className="w-6 h-6" />
@@ -170,7 +174,7 @@ const ProjectInfo = () => {
                       
                       <button
                         onClick={goToNext}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300"
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
                         aria-label="Следваща снимка"
                       >
                         <ChevronRight className="w-6 h-6" />
@@ -181,12 +185,12 @@ const ProjectInfo = () => {
                         {galleryImages.map((_, index) => (
                           <button
                             key={index}
-                            onClick={() => setCurrentImageIndex(index)}
+                            onClick={() => goToSlide(index)}
                             className={`w-3 h-3 rounded-full transition-all duration-300 ${
                               index === currentImageIndex
                                 ? 'bg-white scale-110'
                                 : 'bg-white/50 hover:bg-white/75'
-                            }`}
+                            } z-10 relative`}
                             aria-label={`Отиди на снимка ${index + 1}`}
                           />
                         ))}
