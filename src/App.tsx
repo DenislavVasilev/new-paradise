@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './config/firebase';
 import { useAuthStore } from './lib/store';
@@ -27,6 +27,18 @@ import StoresEditor from './pages/admin/StoresEditor';
 import MediaLibrary from './pages/admin/MediaLibrary';
 import Settings from './pages/admin/Settings';
 import ContactSubmissions from './pages/admin/ContactSubmissions';
+
+// Component to handle scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Scroll to top when pathname changes
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 function App() {
   const { setUser, setIsAdmin, setLoading } = useAuthStore();
@@ -56,6 +68,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* Admin Routes */}
         <Route path="/admin/login" element={<LoginPage />} />
