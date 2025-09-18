@@ -9,9 +9,17 @@ export interface Entrance {
   floors: number[];
 }
 
+export interface ApartmentType {
+  id: string;
+  name: string;
+  label: string;
+  rooms: number;
+}
+
 export interface BuildingConfig {
   id: string;
   entrances: Entrance[];
+  apartmentTypes: ApartmentType[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -31,6 +39,15 @@ const defaultConfig: BuildingConfig = {
       label: 'Б',
       floors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     }
+  ],
+  apartmentTypes: [
+    { id: 'studio', name: 'Студио', label: 'Студио', rooms: 1 },
+    { id: '1-bedroom', name: 'Едностаен', label: '1-стаен', rooms: 1 },
+    { id: '2-bedroom', name: 'Двустаен', label: '2-стаен', rooms: 2 },
+    { id: '2-bedroom-maisonette', name: 'Двустаен мезонет', label: '2-стаен мезонет', rooms: 2 },
+    { id: '3-bedroom', name: 'Тристаен', label: '3-стаен', rooms: 3 },
+    { id: '3-bedroom-maisonette', name: 'Тристаен мезонет', label: '3-стаен мезонет', rooms: 3 },
+    { id: '4-bedroom-maisonette', name: 'Четиристаен мезонет', label: '4-стаен мезонет', rooms: 4 }
   ]
 };
 
@@ -50,6 +67,7 @@ export const useBuildingConfig = () => {
         setConfig({
           id: docSnap.id,
           ...data,
+          apartmentTypes: data.apartmentTypes || defaultConfig.apartmentTypes,
           createdAt: data.createdAt?.toDate(),
           updatedAt: data.updatedAt?.toDate()
         } as BuildingConfig);
@@ -120,6 +138,40 @@ export const useBuildingConfig = () => {
     return saveConfig(newConfig);
   };
 
+  const addApartmentType = (apartmentType: Omit<ApartmentType, 'id'>) => {
+    const newApartmentType: ApartmentType = {
+      ...apartmentType,
+      id: Date.now().toString()
+    };
+    
+    const newConfig = {
+      ...config,
+      apartmentTypes: [...config.apartmentTypes, newApartmentType]
+    };
+    
+    return saveConfig(newConfig);
+  };
+
+  const updateApartmentType = (typeId: string, updates: Partial<ApartmentType>) => {
+    const newConfig = {
+      ...config,
+      apartmentTypes: config.apartmentTypes.map(type =>
+        type.id === typeId ? { ...type, ...updates } : type
+      )
+    };
+    
+    return saveConfig(newConfig);
+  };
+
+  const removeApartmentType = (typeId: string) => {
+    const newConfig = {
+      ...config,
+      apartmentTypes: config.apartmentTypes.filter(type => type.id !== typeId)
+    };
+    
+    return saveConfig(newConfig);
+  };
+
   const getAvailableFloors = (entranceId?: string) => {
     if (!entranceId) {
       // Return all unique floors from all entrances
@@ -141,6 +193,16 @@ export const useBuildingConfig = () => {
     return entrance ? entrance.name : `Вход ${entranceId}`;
   };
 
+  const getApartmentTypeLabel = (typeId: string) => {
+    const type = config.apartmentTypes.find(t => t.id === typeId);
+    return type ? type.label : typeId;
+  };
+
+  const getApartmentTypeName = (typeId: string) => {
+    const type = config.apartmentTypes.find(t => t.id === typeId);
+    return type ? type.name : typeId;
+  };
+
   useEffect(() => {
     fetchConfig();
   }, []);
@@ -152,9 +214,14 @@ export const useBuildingConfig = () => {
     addEntrance,
     updateEntrance,
     removeEntrance,
+    addApartmentType,
+    updateApartmentType,
+    removeApartmentType,
     getAvailableFloors,
     getEntranceLabel,
     getEntranceName,
+    getApartmentTypeLabel,
+    getApartmentTypeName,
     refreshConfig: fetchConfig
   };
 };

@@ -42,7 +42,7 @@ const initialFormData: ApartmentFormData = {
 };
 
 const ApartmentsEditor = () => {
-  const { config: buildingConfig, getAvailableFloors, getEntranceLabel } = useBuildingConfig();
+  const { config: buildingConfig, getAvailableFloors, getEntranceLabel, getApartmentTypeLabel } = useBuildingConfig();
   const { 
     apartments, 
     loading, 
@@ -146,27 +146,6 @@ const ApartmentsEditor = () => {
     setIsAdding(false);
     setFormData(initialFormData);
     setShowImageUpload(false);
-  };
-
-  const getApartmentTypeLabel = (type: string) => {
-    switch (type) {
-      case 'studio':
-        return 'Студио';
-      case '1-bedroom':
-        return 'Едностаен';
-      case '2-bedroom':
-        return 'Двустаен';
-      case '2-bedroom-maisonette':
-        return 'Двустаен мезонет';
-      case '3-bedroom':
-        return 'Тристаен';
-      case '3-bedroom-maisonette':
-        return 'Тристаен мезонет';
-      case '4-bedroom-maisonette':
-        return 'Четиристаен мезонет';
-      default:
-        return type;
-    }
   };
 
   const getExposureText = (exposure: string) => {
@@ -314,13 +293,11 @@ const ApartmentsEditor = () => {
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
                 <option value="all">Всички</option>
-                <option value="studio">Студио</option>
-                <option value="1-bedroom">Едностаен</option>
-                <option value="2-bedroom">Двустаен</option>
-                <option value="2-bedroom-maisonette">Двустаен мезонет</option>
-                <option value="3-bedroom">Тристаен</option>
-                <option value="3-bedroom-maisonette">Тристаен мезонет</option>
-                <option value="4-bedroom-maisonette">Четиристаен мезонет</option>
+                {buildingConfig.apartmentTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -385,13 +362,11 @@ const ApartmentsEditor = () => {
                 onChange={(e) => handleTypeChange(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                <option value="studio">Студио</option>
-                <option value="1-bedroom">Едностаен</option>
-                <option value="2-bedroom">Двустаен</option>
-                <option value="2-bedroom-maisonette">Двустаен мезонет</option>
-                <option value="3-bedroom">Тристаен</option>
-                <option value="3-bedroom-maisonette">Тристаен мезонет</option>
-                <option value="4-bedroom-maisonette">Четиристаен мезонет</option>
+                {buildingConfig.apartmentTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
               </select>
             </div>
 

@@ -5,7 +5,7 @@ import { useBuildingConfig } from '../lib/hooks/useBuildingConfig';
 import { Link } from 'react-router-dom';
 
 const ApartmentCatalog = () => {
-  const { config: buildingConfig, getEntranceName, getEntranceLabel, getAvailableFloors } = useBuildingConfig();
+  const { config: buildingConfig, getEntranceName, getEntranceLabel, getAvailableFloors, getApartmentTypeLabel } = useBuildingConfig();
   const [selectedEntrance, setSelectedEntrance] = useState<string>('всички');
   const [selectedFloor, setSelectedFloor] = useState<string>('всички');
   const [selectedType, setSelectedType] = useState<string>('всички');
@@ -92,13 +92,11 @@ const ApartmentCatalog = () => {
               className="w-full p-2 border border-gray-300 rounded-lg appearance-none bg-white pr-8"
             >
               <option value="всички">Всички типове</option>
-              <option value="studio">Студио</option>
-              <option value="1-bedroom">Едностаен</option>
-              <option value="2-bedroom">Двустаен</option>
-              <option value="2-bedroom-maisonette">Двустаен мезонет</option>
-              <option value="3-bedroom">Тристаен</option>
-              <option value="3-bedroom-maisonette">Тристаен мезонет</option>
-              <option value="4-bedroom-maisonette">Четиристаен мезонет</option>
+              {buildingConfig.apartmentTypes.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {type.name}
+                </option>
+              ))}
             </select>
             <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
           </div>
@@ -151,13 +149,7 @@ const ApartmentCatalog = () => {
                   </td>
                   <td className="p-3 border-b border-gray-200">{apartment.floor}</td>
                   <td className="p-3 border-b border-gray-200">
-                    {apartment.type === 'studio' && 'Студио'}
-                    {apartment.type === '1-bedroom' && 'Едностаен'}
-                    {apartment.type === '2-bedroom' && 'Двустаен'}
-                    {apartment.type === '2-bedroom-maisonette' && 'Двустаен мезонет'}
-                    {apartment.type === '3-bedroom' && 'Тристаен'}
-                    {apartment.type === '3-bedroom-maisonette' && 'Тристаен мезонет'}
-                    {apartment.type === '4-bedroom-maisonette' && 'Четиристаен мезонет'}
+                    {getApartmentTypeLabel(apartment.type)}
                   </td>
                   <td className="p-3 border-b border-gray-200">{getExposureText(apartment.exposure)}</td>
                   <td className="p-3 border-b border-gray-200">
