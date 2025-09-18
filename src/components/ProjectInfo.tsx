@@ -97,19 +97,6 @@ const ProjectInfo = () => {
             </div>
           </div>
           
-          {/* Floating cards */}
-          <div className="absolute -top-8 -left-8 bg-white rounded-xl p-4 shadow-lg hidden lg:block">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center">
-                <TreePine className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <div className="font-semibold text-neutral-800">Еко-френдли</div>
-                <div className="text-sm text-neutral-600">Зелена енергия</div>
-              </div>
-            </div>
-          </div>
-          
         </div>
       </div>
     </section>
