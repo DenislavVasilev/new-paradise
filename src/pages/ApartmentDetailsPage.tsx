@@ -37,6 +37,7 @@ const ApartmentDetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const [showLightbox, setShowLightbox] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showContactModal, setShowContactModal] = useState(false);
 
   useEffect(() => {
     const fetchApartment = async () => {
