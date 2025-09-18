@@ -332,12 +332,18 @@ const ApartmentDetailsPage = () => {
                       className="w-full sm:w-auto bg-primary text-white px-8 py-4 rounded-xl hover:bg-primary-dark transition duration-300 font-medium shadow-lg hover:shadow-xl"
                       disabled={apartment.status === 'sold'}
                       onClick={() => {
-                        const contactForm = document.getElementById('contact-form');
-                        if (contactForm) {
-                          contactForm.scrollIntoView({ behavior: 'smooth' });
+                        // Check if mobile device
+                        if (window.innerWidth < 768) {
+                          setShowContactModal(true);
+                        } else {
+                          const contactForm = document.getElementById('contact-form');
+                          if (contactForm) {
+                            contactForm.scrollIntoView({ behavior: 'smooth' });
+                          }
                         }
                       }}
                     >
+                      <Phone className="w-5 h-5 mr-2 md:hidden" />
                       Свържете се с нас
                     </button>
                   </div>
@@ -346,7 +352,7 @@ const ApartmentDetailsPage = () => {
             </div>
           </div>
 
-          <div id="contact-form">
+          <div id="contact-form" className="hidden md:block">
             <div className="max-w-3xl mx-auto">
               <div className="bg-white rounded-lg shadow-lg p-8">
                 <h2 className="text-2xl font-bold text-center mb-8">
@@ -358,6 +364,15 @@ const ApartmentDetailsPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile Contact Modal */}
+      {showContactModal && (
+        <ContactForm
+          apartmentNumber={apartment.number}
+          isModal={true}
+          onClose={() => setShowContactModal(false)}
+        />
+      )}
 
       {/* Image Lightbox */}
       {showLightbox && (
