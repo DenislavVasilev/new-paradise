@@ -131,6 +131,8 @@ export const useAvailabilitySettings = () => {
         setSettings({
           id: docSnap.id,
           ...data,
+          stats: Array.isArray(data.stats) ? data.stats : defaultSettings.stats,
+          features: Array.isArray(data.features) ? data.features : defaultSettings.features,
           updatedAt: data.updatedAt?.toDate()
         } as AvailabilitySettings);
       } else {
