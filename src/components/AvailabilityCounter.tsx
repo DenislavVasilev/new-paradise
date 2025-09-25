@@ -61,7 +61,7 @@ const AvailabilityCounter = () => {
 
         {/* Main stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {settings.stats
+          {(settings.stats || [])
             .sort((a, b) => a.order - b.order)
             .map((stat, index) => {
             const IconComponent = getIconComponent(stat.icon);
@@ -105,7 +105,7 @@ const AvailabilityCounter = () => {
 
         {/* Additional features */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {settings.features
+          {(settings.features || [])
             .sort((a, b) => a.order - b.order)
             .map((feature, index) => {
             const IconComponent = getIconComponent(feature.icon);
