@@ -4,6 +4,7 @@ import { ArrowLeft, Home, Square, Euro, MapPin, Building2, Loader2, X, ChevronLe
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import ContactForm from '../components/ContactForm';
+import { useBuildingConfig } from '../lib/hooks/useBuildingConfig';
 
 interface Apartment {
   id: string;
@@ -33,6 +34,7 @@ const defaultImages = [
 const ApartmentDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { getEntranceLabel } = useBuildingConfig();
   const [apartment, setApartment] = useState<Apartment | null>(null);
   const [loading, setLoading] = useState(true);
   const [showLightbox, setShowLightbox] = useState(false);
@@ -149,10 +151,6 @@ const ApartmentDetailsPage = () => {
       default:
         return '';
     }
-  };
-
-  const getEntranceLabel = (entrance: string) => {
-    return entrance === '1' ? 'А' : entrance === '2' ? 'Б' : entrance;
   };
 
   const getExposureText = (exposure: string) => {
