@@ -41,82 +41,94 @@ export const useApartments = (
   const fetchApartments = async () => {
     try {
       setLoading(true);
-      let q = query(collection(db, 'apartments'));
 
-      if (entrance && entrance !== 'всички') {
-        q = query(q, where('entrance', '==', entrance));
-      }
-      
-      if (floor && floor !== 'всички') {
-        const floorNumber = parseInt(floor);
-        q = query(q, where('floor', '==', floorNumber));
-        const secondaryQ = query(
-          collection(db, 'apartments'),
-          where('secondaryFloor', '==', floorNumber)
-        );
+      const floorNumber = floor && floor !== 'всички' ? parseInt(floor) : null;
+
+      if (floorNumber !== null) {
+        let primaryQ = query(collection(db, 'apartments'), where('floor', '==', floorNumber));
+        let secondaryQ = query(collection(db, 'apartments'), where('secondaryFloor', '==', floorNumber));
+
+        if (entrance && entrance !== 'всички') {
+          primaryQ = query(primaryQ, where('entrance', '==', entrance));
+          secondaryQ = query(secondaryQ, where('entrance', '==', entrance));
+        }
+
+        if (type && type !== 'всички') {
+          primaryQ = query(primaryQ, where('type', '==', type));
+          secondaryQ = query(secondaryQ, where('type', '==', type));
+        }
+
+        if (status && status !== 'всички') {
+          primaryQ = query(primaryQ, where('status', '==', status));
+          secondaryQ = query(secondaryQ, where('status', '==', status));
+        }
+
         const [primarySnapshot, secondarySnapshot] = await Promise.all([
-          getDocs(q),
+          getDocs(primaryQ),
           getDocs(secondaryQ)
         ]);
-        
+
         const primaryApartments = primarySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
           createdAt: doc.data().createdAt?.toDate(),
           updatedAt: doc.data().updatedAt?.toDate()
         }));
-        
+
         const secondaryApartments = secondarySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
           createdAt: doc.data().createdAt?.toDate(),
           updatedAt: doc.data().updatedAt?.toDate()
         }));
-        
+
         const combinedApartments = [...primaryApartments, ...secondaryApartments];
         const uniqueApartments = Array.from(
           new Map(combinedApartments.map(item => [item.id, item])).values()
         );
 
-        // Sort apartments first by entrance, then by number
         const sortedApartments = uniqueApartments.sort((a, b) => {
           if (a.entrance !== b.entrance) {
             return a.entrance.localeCompare(b.entrance);
           }
           return parseInt(a.number) - parseInt(b.number);
         });
-        
+
         setApartments(sortedApartments as Apartment[]);
         setError(null);
-        setLoading(false);
-        return;
-      }
+      } else {
+        let q = query(collection(db, 'apartments'));
 
-      if (type && type !== 'всички') {
-        q = query(q, where('type', '==', type));
-      }
-      if (status && status !== 'всички') {
-        q = query(q, where('status', '==', status));
-      }
-
-      const querySnapshot = await getDocs(q);
-      const apartmentData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        createdAt: doc.data().createdAt?.toDate(),
-        updatedAt: doc.data().updatedAt?.toDate()
-      })) as Apartment[];
-
-      // Sort apartments first by entrance, then by number
-      const sortedApartments = apartmentData.sort((a, b) => {
-        if (a.entrance !== b.entrance) {
-          return a.entrance.localeCompare(b.entrance);
+        if (entrance && entrance !== 'всички') {
+          q = query(q, where('entrance', '==', entrance));
         }
-        return parseInt(a.number) - parseInt(b.number);
-      });
 
-      setApartments(sortedApartments);
-      setError(null);
+        if (type && type !== 'всички') {
+          q = query(q, where('type', '==', type));
+        }
+
+        if (status && status !== 'всички') {
+          q = query(q, where('status', '==', status));
+        }
+
+        const querySnapshot = await getDocs(q);
+        const apartmentData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt?.toDate(),
+          updatedAt: doc.data().updatedAt?.toDate()
+        })) as Apartment[];
+
+        const sortedApartments = apartmentData.sort((a, b) => {
+          if (a.entrance !== b.entrance) {
+            return a.entrance.localeCompare(b.entrance);
+          }
+          return parseInt(a.number) - parseInt(b.number);
+        });
+
+        setApartments(sortedApartments);
+        setError(null);
+      }
     } catch (err) {
       console.error('Error fetching apartments:', err);
       setError('Грешка при зареждане на апартаментите');
