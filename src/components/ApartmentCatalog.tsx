@@ -28,6 +28,15 @@ const ApartmentCatalog = () => {
     selectedStatus
   );
 
+  const getCurrentFilters = () => {
+    const params = new URLSearchParams();
+    if (selectedEntrance !== 'всички') params.set('entrance', selectedEntrance);
+    if (selectedFloor !== 'всички') params.set('floor', selectedFloor);
+    if (selectedType !== 'всички') params.set('type', selectedType);
+    if (selectedStatus !== 'всички') params.set('status', selectedStatus);
+    return params.toString();
+  };
+
   useEffect(() => {
     const params: Record<string, string> = {};
     if (selectedEntrance !== 'всички') params.entrance = selectedEntrance;
@@ -153,22 +162,18 @@ const ApartmentCatalog = () => {
             </thead>
             <tbody>
               {apartments.map((apartment, index) => (
-                <tr 
+                <tr
                   key={apartment.id}
                   className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100 transition-colors cursor-pointer`}
                   onClick={() => {
-                    const params = new URLSearchParams();
-                    if (selectedEntrance !== 'всички') params.set('entrance', selectedEntrance);
-                    if (selectedFloor !== 'всички') params.set('floor', selectedFloor);
-                    if (selectedType !== 'всички') params.set('type', selectedType);
-                    if (selectedStatus !== 'всички') params.set('status', selectedStatus);
-                    window.location.href = `/apartments/${apartment.id}?returnFilters=${params.toString()}`;
+                    const filters = getCurrentFilters();
+                    window.location.href = `/apartments/${apartment.id}?returnFilters=${encodeURIComponent(filters)}`;
                   }}
                 >
                   <td className="p-3 border-b border-gray-200">{getEntranceLabel(apartment.entrance)}</td>
                   <td className="p-3 border-b border-gray-200">
                     <Link
-                      to={`/apartments/${apartment.id}?returnFilters=${encodeURIComponent(searchParams.toString())}`}
+                      to={`/apartments/${apartment.id}?returnFilters=${encodeURIComponent(getCurrentFilters())}`}
                       className="text-primary hover:text-primary-dark transition-colors"
                     >
                       {apartment.number}
@@ -213,7 +218,7 @@ const ApartmentCatalog = () => {
           {apartments.map((apartment) => (
             <Link
               key={apartment.id}
-              to={`/apartments/${apartment.id}?returnFilters=${encodeURIComponent(searchParams.toString())}`}
+              to={`/apartments/${apartment.id}?returnFilters=${encodeURIComponent(getCurrentFilters())}`}
               className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
             >
               <div className="bg-secondary text-white px-4 py-3">
