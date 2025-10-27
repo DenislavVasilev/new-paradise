@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, Loader2 } from 'lucide-react';
 import { useApartments } from '../lib/hooks/useApartments';
 import { useBuildingConfig } from '../lib/hooks/useBuildingConfig';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 const ApartmentCatalog = () => {
   const { config: buildingConfig, getEntranceName, getEntranceLabel, getAvailableFloors, getApartmentTypeLabel } = useBuildingConfig();
-  const [selectedEntrance, setSelectedEntrance] = useState<string>('всички');
-  const [selectedFloor, setSelectedFloor] = useState<string>('всички');
-  const [selectedType, setSelectedType] = useState<string>('всички');
-  const [selectedStatus, setSelectedStatus] = useState<string>('всички');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [selectedEntrance, setSelectedEntrance] = useState<string>(
+    searchParams.get('entrance') || 'всички'
+  );
+  const [selectedFloor, setSelectedFloor] = useState<string>(
+    searchParams.get('floor') || 'всички'
+  );
+  const [selectedType, setSelectedType] = useState<string>(
+    searchParams.get('type') || 'всички'
+  );
+  const [selectedStatus, setSelectedStatus] = useState<string>(
+    searchParams.get('status') || 'всички'
+  );
 
   const { apartments, loading, error } = useApartments(
     selectedEntrance,
@@ -17,6 +27,16 @@ const ApartmentCatalog = () => {
     selectedType,
     selectedStatus
   );
+
+  useEffect(() => {
+    const params: Record<string, string> = {};
+    if (selectedEntrance !== 'всички') params.entrance = selectedEntrance;
+    if (selectedFloor !== 'всички') params.floor = selectedFloor;
+    if (selectedType !== 'всички') params.type = selectedType;
+    if (selectedStatus !== 'всички') params.status = selectedStatus;
+
+    setSearchParams(params, { replace: true });
+  }, [selectedEntrance, selectedFloor, selectedType, selectedStatus, setSearchParams]);
 
   const getExposureText = (exposure: string) => {
     switch (exposure) {
@@ -136,12 +156,19 @@ const ApartmentCatalog = () => {
                 <tr 
                   key={apartment.id}
                   className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100 transition-colors cursor-pointer`}
-                  onClick={() => window.location.href = `/apartments/${apartment.id}`}
+                  onClick={() => {
+                    const params = new URLSearchParams();
+                    if (selectedEntrance !== 'всички') params.set('entrance', selectedEntrance);
+                    if (selectedFloor !== 'всички') params.set('floor', selectedFloor);
+                    if (selectedType !== 'всички') params.set('type', selectedType);
+                    if (selectedStatus !== 'всички') params.set('status', selectedStatus);
+                    window.location.href = `/apartments/${apartment.id}?returnFilters=${params.toString()}`;
+                  }}
                 >
                   <td className="p-3 border-b border-gray-200">{getEntranceLabel(apartment.entrance)}</td>
                   <td className="p-3 border-b border-gray-200">
-                    <Link 
-                      to={`/apartments/${apartment.id}`}
+                    <Link
+                      to={`/apartments/${apartment.id}?returnFilters=${encodeURIComponent(searchParams.toString())}`}
                       className="text-primary hover:text-primary-dark transition-colors"
                     >
                       {apartment.number}
@@ -186,7 +213,7 @@ const ApartmentCatalog = () => {
           {apartments.map((apartment) => (
             <Link
               key={apartment.id}
-              to={`/apartments/${apartment.id}`}
+              to={`/apartments/${apartment.id}?returnFilters=${encodeURIComponent(searchParams.toString())}`}
               className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
             >
               <div className="bg-secondary text-white px-4 py-3">

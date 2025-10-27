@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Home, Square, Euro, MapPin, Building2, Loader2, X, ChevronLeft, ChevronRight, Compass, Printer, ImageIcon, Phone } from 'lucide-react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
@@ -34,12 +34,15 @@ const defaultImages = [
 const ApartmentDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { getEntranceLabel } = useBuildingConfig();
   const [apartment, setApartment] = useState<Apartment | null>(null);
   const [loading, setLoading] = useState(true);
   const [showLightbox, setShowLightbox] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showContactModal, setShowContactModal] = useState(false);
+
+  const returnFilters = searchParams.get('returnFilters') || '';
 
   useEffect(() => {
     const fetchApartment = async () => {
@@ -116,7 +119,10 @@ const ApartmentDetailsPage = () => {
         <div className="text-center">
           <h2 className="text-2xl font-bold text-neutral-800">Апартаментът не е намерен</h2>
           <button
-            onClick={() => navigate('/apartments')}
+            onClick={() => {
+              const path = returnFilters ? `/apartments?${returnFilters}` : '/apartments';
+              navigate(path);
+            }}
             className="mt-4 inline-flex items-center text-primary hover:text-primary-dark"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
@@ -176,7 +182,10 @@ const ApartmentDetailsPage = () => {
       <div className="pt-24 pb-16 bg-neutral-50">
         <div className="container-custom">
           <button
-            onClick={() => navigate('/apartments')}
+            onClick={() => {
+              const path = returnFilters ? `/apartments?${returnFilters}` : '/apartments';
+              navigate(path);
+            }}
             className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
