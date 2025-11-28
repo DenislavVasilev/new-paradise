@@ -14,6 +14,7 @@ export interface Apartment {
   area: number;
   netArea?: number; // Чиста площ
   price: number;
+  promoPrice?: number; // Промоционална цена
   status: 'available' | 'reserved' | 'sold';
   description: string;
   features: string[];

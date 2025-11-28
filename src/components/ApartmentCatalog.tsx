@@ -189,7 +189,16 @@ const ApartmentCatalog = () => {
                   </td>
                   <td className="p-3 border-b border-gray-200">{apartment.area} кв.м</td>
                   <td className="p-3 border-b border-gray-200">
-                    {apartment.price > 0 ? `€${apartment.price.toLocaleString()}` : ''}
+                    {apartment.price > 0 ? (
+                      apartment.promoPrice && apartment.promoPrice < apartment.price ? (
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-500 line-through text-sm">€{apartment.price.toLocaleString()}</span>
+                          <span className="text-red-600 font-bold">€{apartment.promoPrice.toLocaleString()}</span>
+                        </div>
+                      ) : (
+                        `€${apartment.price.toLocaleString()}`
+                      )
+                    ) : ''}
                   </td>
                   <td className="p-3 border-b border-gray-200">
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -276,9 +285,22 @@ const ApartmentCatalog = () => {
                   <div className="mt-4 pt-4 border-t border-gray-200">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Цена:</span>
-                      <span className="text-xl font-bold text-primary">
-                        €{apartment.price.toLocaleString()}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        {apartment.promoPrice && apartment.promoPrice < apartment.price ? (
+                          <>
+                            <span className="text-base text-gray-500 line-through">
+                              €{apartment.price.toLocaleString()}
+                            </span>
+                            <span className="text-xl font-bold text-red-600">
+                              €{apartment.promoPrice.toLocaleString()}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-xl font-bold text-primary">
+                            €{apartment.price.toLocaleString()}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}

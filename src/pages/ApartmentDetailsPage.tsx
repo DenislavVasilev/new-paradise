@@ -15,6 +15,7 @@ interface Apartment {
   area: number;
   netArea?: number;
   price: number;
+  promoPrice?: number;
   status: 'available' | 'reserved' | 'sold';
   description: string;
   features: string[];
@@ -333,8 +334,15 @@ const ApartmentDetailsPage = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl">
                     <div>
                       <p className="text-sm text-neutral-600">Цена</p>
-                      <div className="flex items-center mt-1">
-                        <span className="text-2xl lg:text-3xl font-bold text-gray-900">€{apartment.price.toLocaleString()}</span>
+                      <div className="flex items-center gap-3 mt-1">
+                        {apartment.promoPrice && apartment.promoPrice < apartment.price ? (
+                          <>
+                            <span className="text-xl lg:text-2xl text-gray-500 line-through">€{apartment.price.toLocaleString()}</span>
+                            <span className="text-2xl lg:text-3xl font-bold text-red-600">€{apartment.promoPrice.toLocaleString()}</span>
+                          </>
+                        ) : (
+                          <span className="text-2xl lg:text-3xl font-bold text-gray-900">€{apartment.price.toLocaleString()}</span>
+                        )}
                       </div>
                     </div>
                     <button

@@ -15,6 +15,7 @@ interface ApartmentFormData {
   area: number;
   netArea?: number;
   price: number;
+  promoPrice?: number;
   status: 'available' | 'reserved' | 'sold';
   description: string;
   features: string[];
@@ -32,6 +33,7 @@ const initialFormData: ApartmentFormData = {
   area: 0,
   netArea: 0,
   price: 0,
+  promoPrice: undefined,
   status: 'available',
   description: '',
   features: [],
@@ -128,6 +130,7 @@ const ApartmentsEditor = () => {
       area: apartment.area,
       netArea: apartment.netArea || 0,
       price: apartment.price,
+      promoPrice: apartment.promoPrice,
       status: apartment.status,
       description: apartment.description || '',
       features: apartment.features || [],
@@ -441,6 +444,15 @@ const ApartmentsEditor = () => {
               value={formData.price}
               onChange={(e) => handleInputChange('price', Number(e.target.value))}
               required
+            />
+
+            <Input
+              label="Промоционална цена (EUR)"
+              type="number"
+              min="0"
+              value={formData.promoPrice || ''}
+              onChange={(e) => handleInputChange('promoPrice', e.target.value ? Number(e.target.value) : undefined)}
+              placeholder="Остави празно ако няма промоция"
             />
 
             <div>
